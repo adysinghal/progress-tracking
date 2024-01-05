@@ -6,4 +6,50 @@
 
     cout << sin(sq_val);
 
+// ternary operator
+    (condition) ? ifTrue : ifFalse;
 
+// switch case
+    int x = 2; 
+    switch (x) 
+    { 
+        case 1: 
+            cout << "Choice is 1"; 
+            break; 
+        case 2: 
+            cout << "Choice is 2"; 
+            break; 
+        case 3: 
+            cout << "Choice is 3"; 
+            break; 
+        default: 
+            cout << "Choice other than 1, 2 and 3"; 
+            break; 
+    }
+
+// do while loop
+this will run for atleast the first time
+    int i = 1;
+    do {
+        cout << i << " ";
+        i++;
+    } while(i <= 5);
+
+// function templates
+    template <class T>
+    T add(T x, T y){
+        return (x+y);
+    } 
+
+    int result = add<int>(2,5);
+
+
+// class template
+    template <class T>
+    class Score{
+        T scorevalue;
+    public:
+        Score(T val){
+            scorevalue = val;
+        }
+    };
