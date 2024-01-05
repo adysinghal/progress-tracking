@@ -1,0 +1,5 @@
+// type-casting (print ascii value of char)
+    char ch;
+    cout << (int)ch;
+
+

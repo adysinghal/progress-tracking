@@ -1,3 +1,7 @@
+4-1
 Type casting -> implicit and explicit
 File handling -> ifstream, ofstream, fstream (how important is this?)
 
+5-1
+cout << fixed << setprecision() << // this prints float/double upto a certain decimal point
+<cmath> -> pow, sqrt, sin (math functions)

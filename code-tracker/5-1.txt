@@ -1,0 +1,9 @@
+// setprecision usage
+    cout << fixed << setprecision(3) << d << endl;
+    cout << fixed << setprecision(9) << e << endl;
+
+// using cmath functions
+
+    cout << sin(sq_val);
+
+
