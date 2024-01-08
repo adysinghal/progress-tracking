@@ -6,3 +6,6 @@ File handling -> ifstream, ofstream, fstream (how important is this?)
 cout << fixed << setprecision() << // this prints float/double upto a certain decimal point
 <cmath> -> pow, sqrt, sin (math functions)
 do-while is implemented for the first time compulsarily, then the condition is checked
+
+7-1
+default parameters in the function, string manipulation (stringstream, getline)
