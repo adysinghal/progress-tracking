@@ -12,3 +12,6 @@ default parameters in the function, string manipulation (stringstream, getline)
 
 8-1
 malloc and free.
+
+9-1 
+making struct
