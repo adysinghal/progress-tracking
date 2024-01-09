@@ -9,3 +9,6 @@ do-while is implemented for the first time compulsarily, then the condition is c
 
 7-1
 default parameters in the function, string manipulation (stringstream, getline)
+
+8-1
+malloc and free.
