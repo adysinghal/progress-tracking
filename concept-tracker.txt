@@ -15,3 +15,6 @@ malloc and free.
 
 9-1 
 making struct
+
+10-1
+big O -> worst, big Omega -> best, big Theta -> worst
