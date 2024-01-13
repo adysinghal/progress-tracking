@@ -4,3 +4,6 @@
 8/1/24 - Interviewbit (pointers and arrays)
 9/1/24 - Interviewbit (sturcture and class)
 10/1/24 - Interviewbit (time complexity)
+11/1/24 - array and math from Interviewbit
+12/1/24  HTML, CSS, JS
+13/1/24 - Coding ninjas -> array questions

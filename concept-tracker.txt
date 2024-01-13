@@ -18,3 +18,12 @@ making struct
 
 10-1
 big O -> worst, big Omega -> best, big Theta -> worst
+
+11-1
+array and math from Interviewbit
+
+12-1
+kirupa - https://www.kirupa.com/html5/learn_html_css.htm
+
+13-1
+maximum subarray sum -> O(N) approach is the best
