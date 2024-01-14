@@ -5,3 +5,25 @@ File handling -> ifstream, ofstream, fstream (how important is this?)
 5-1
 cout << fixed << setprecision() << // this prints float/double upto a certain decimal point
 <cmath> -> pow, sqrt, sin (math functions)
+do-while is implemented for the first time compulsarily, then the condition is checked
+
+7-1
+default parameters in the function, string manipulation (stringstream, getline)
+
+8-1
+malloc and free.
+
+9-1 
+making struct
+
+10-1
+big O -> worst, big Omega -> best, big Theta -> worst
+
+11-1
+array and math from Interviewbit
+
+12-1
+kirupa - https://www.kirupa.com/html5/learn_html_css.htm
+
+13-1
+maximum subarray sum -> O(N) approach is the best

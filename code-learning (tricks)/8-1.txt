@@ -1,0 +1,11 @@
+// to update or read the value stored in a pointer variable, we use *
+
+    void solve(int *A, int *B){
+        int a = *A, b = *B;
+        *A = a + b;
+        *B = abs(a-b);
+        return;
+    }
+
+
+//

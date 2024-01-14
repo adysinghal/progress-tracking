@@ -1,0 +1,19 @@
+// default parameter syntax
+    int sum(int a = 0, int b = 10){
+
+    }
+
+// stringstream ss 
+// eg. extracting space seperated values
+
+    string input = "Alice Bob Charlie";
+    stringstream ss(input);
+
+    string name1, name2, name3;
+    ss >> name1 >> name2 >> name3;
+
+    cout << name1 << " " << name2 << " " << name3 << endl;
+
+
+// getline
+    

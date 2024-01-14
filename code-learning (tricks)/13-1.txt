@@ -1,0 +1,14 @@
+doing coding ninjas array problems that most companies asked (ranking)
+
+// maximum subaaray sum
+
+    dp is a good approach when you can pick non continguous elements too
+    for contiguous elements -> O(N) linear approach
+    with every pass -> update maxi value and also reset sum to 0 if it gets negative
+
+// search in rotated array
+
+    we need to solve in O(logn)
+    search for pivot with binary search
+    do a binary search in rotated array
+    

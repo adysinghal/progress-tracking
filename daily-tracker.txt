@@ -1,2 +1,10 @@
 4/1/24 - Learnt about git and created repository. Interviewbit (C++ introduction part covered)
 5/1/24 - Interviewbit (introduction course)
+7/1/24 - Interviewbit (functions + string)
+8/1/24 - Interviewbit (pointers and arrays)
+9/1/24 - Interviewbit (sturcture and class)
+10/1/24 - Interviewbit (time complexity)
+11/1/24 - array and math from Interviewbit
+12/1/24  HTML, CSS, JS
+13/1/24 - Coding ninjas -> array questions
+14/1/24 - Array questions
