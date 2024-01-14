@@ -1,0 +1,14 @@
+    write comments for all the small steps
+    then solve it as subproblems
+
+
+// justify text problem
+
+    count number of words in a single line
+    calculate the number of spaces between words
+    form the temp string
+    reset the variables
+
+
+    
+
