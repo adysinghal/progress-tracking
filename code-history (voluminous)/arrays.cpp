@@ -285,3 +285,135 @@ public:
 
     }
 };
+
+// coloring problem -> three colors -> three pointers
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        int start = 0, mid = 0, end = n-1;
+
+        while(start <= end && mid <= end){
+            if(nums[mid] == 0){
+                swap(nums[start], nums[mid]);
+                start++, mid++;
+            }
+            else if(nums[mid] == 1){
+                mid++;
+            }else{
+                swap(nums[mid], nums[end]);
+                end--;
+            }
+        }
+    }
+};
+
+
+// 2 sum problem
+// https://leetcode.com/problems/two-sum/description/
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // traverse and check if element has been added to the map yet
+
+    }
+};
+
+
+// Majority element (>n/2 times)
+// https://leetcode.com/problems/majority-element/
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        // moore voting algo
+
+        // if element element is repeated, increase its score otherwise decrement it
+        // keep a element element that is updated every time the score goes below 0
+
+        int score = 0;
+        int element = -1;
+
+        for(int i = 0; i < nums.size(); i++){
+            if(score <= 0){
+                element = nums[i];
+            }
+            if(element == nums[i])score++;
+            else score--;
+        }
+        return element;
+    }
+};
+
+
+// max subarray
+// https://leetcode.com/problems/maximum-subarray/
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        
+        // keep adding elements to a variable called sum
+        // keep track of variables being added by a left and right pointer
+        // if (sum < 0, reset sum to 0, update left to right then start moving forward)
+
+        int n = nums.size();
+        int sum = 0, maxSum = 0;
+
+        for(int i = 0; i < n; i++){
+            sum += nums[i];
+            maxSum = max(sum, maxSum);
+
+            if(sum <= 0){
+                sum = 0;
+            }
+        }
+        return maxSum;        
+
+    }
+};
+
+
+// rearrange array elements by sign
+// https://leetcode.com/problems/rearrange-array-elements-by-sign/
+
+// two pointer approach
+
+// TC: O(N)
+// SC: O(N)
+
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> arr(n, 0);
+        int pos = 0, neg = 0;
+
+        while(nums[pos] < 0 && pos < n)pos++;
+
+        while(nums[neg] > 0 && neg < n)neg++;
+
+        for(int i = 0; i < n; i++){
+
+            // at even index, place positive number
+
+            if(i%2 == 0){
+                if(pos < n){
+                    arr[i] = nums[pos++];
+                    while(pos < n && nums[pos] < 0)pos++;
+                }
+            }
+            // at odd index, place negative integer
+            else{
+                if(neg < n){
+                    arr[i] = nums[neg++];
+                    while(neg < n && nums[neg] > 0)neg++;
+                }
+            }
+        }
+        return arr;
+    }
+};

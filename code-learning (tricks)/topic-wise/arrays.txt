@@ -1,0 +1,12 @@
+Arrays 
+
+coloring problem -> three pointer solution
+
+two sum -> Do it in one pass, make a map and keep checking if target - arr[i] is present in the map or not
+
+majority element (moore voting algorithm)
+if element element is repeated, increase its score otherwise decrement it
+keep a element element that is updated every time the score goes below 0
+
+2149. Rearrange Array Elements by Sign
+keep pos and neg pointers, keep updating values in a new answer vector
