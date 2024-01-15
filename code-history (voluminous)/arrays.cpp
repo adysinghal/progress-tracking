@@ -206,3 +206,82 @@ long long getInversions(long long *arr, int n){
 
 
 
+// approach 3
+
+// merge sort approach -> do normal merge 
+// sort but count inversions while two partitions are being merged
+
+long long mergeFunc(long long *arr, long long *temp, int n, int left, int mid, int right){
+    int i = left, j = mid+1, k = left;
+    long long inversions = 0;
+
+    while(i <= mid && j <= right){
+        if(arr[i] <= arr[j]){
+            temp[k++] = arr[i++];
+        }else{
+            temp[k++] = arr[j++];
+            inversions += mid+1-i;
+        }
+    }
+
+    while(i <= mid){
+        temp[k++] = arr[i++];
+    }
+    while(j <= right){
+        temp[k++] = arr[j++];
+    }
+    
+    for(int l = left; l <= right; l++){
+        arr[l] = temp[l];
+    }
+
+    return inversions;
+}
+
+long long mergeSort(long long *arr, long long* temp, int n, int left, int right){
+    long long inversions = 0;
+
+    if(left < right){
+        int mid = (left + right)/2;
+        inversions += mergeSort(arr, temp, n, left, mid);
+        inversions += mergeSort(arr, temp, n, mid+1, right);
+        inversions += mergeFunc(arr, temp, n, left, mid, right);
+    }
+
+    return inversions;
+}
+
+
+
+long long getInversions(long long *arr, int n){
+    long long *temp = new long long [n];
+    return mergeSort(arr, temp, n, 0, n-1);
+
+}
+
+
+
+// https://leetcode.com/problems/sort-colors/description/
+
+// 75. Sort Colors
+// Solved
+// Medium
+// Topics
+// Companies
+// Hint
+// Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+// We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+// You must solve this problem without using the library's sort function.
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        // 1st O(N) approach -> count number of elements, then update according to frequency
+        // not coding this approach, pretty obvious
+
+        // 2nd approach 
+
+    }
+};
