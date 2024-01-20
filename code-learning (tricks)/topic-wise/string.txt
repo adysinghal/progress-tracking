@@ -1,0 +1,13 @@
+syntax :
+s.substr(start, LENGTH)
+
+longest palindormic substring
+    trick: instead of checking if it is a palindrome normally, check inside out check for all indexes, left and right, and keep going while in bounds to see the longest palindrome you can make while including it
+
+
+longest-common-prefix
+
+    // approach -> assuming the first string to be the longest common prefix, we start comparing each of the other strings to it and we update ans to be the longest common substring out of these
+
+Repeated String Match (Rabin Karp algorithm)
+    
