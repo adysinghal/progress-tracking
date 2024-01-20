@@ -417,3 +417,71 @@ public:
         return arr;
     }
 };
+
+
+// https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/
+// Largest subarray with 0 sum
+
+// recursion solution -> O(2^n) TC
+
+class Solution{
+
+    void helper(vector<int>&arr, int n, int &ans, vector<int>& temp, int sum, int index){
+        if(index == n){
+            return;
+        }
+
+        if(sum == 0){
+            int x = temp.size();
+            ans = max(ans, x);
+        }
+
+        // not take
+        helper(arr, n, ans, temp, sum, index+1);
+
+        // take 
+        temp.push_back(arr[index]);
+        helper(arr, n, ans, temp, sum+arr[index], index+1);
+        temp.pop_back();
+
+    }
+    
+    public:
+    int maxLen(vector<int>&arr, int n)
+    {   
+        int ans = -1;
+        vector<int> temp;
+
+        helper(arr, n, ans, temp, 0, 0);
+        return ans;
+    }
+};
+
+// TC O(N) solution
+// if subarray (continuous elements)
+// we caluclate cumulative sum at each index, if same sum is encountered, update value of ans
+
+#include <unordered_map>
+
+class Solution{
+    public:
+    int maxLen(vector<int>&arr, int n)
+    {   
+        unordered_map<int,int> mp;
+        int sum = 0, ans = 0;
+        for(int i = 0; i < n; i++){
+            sum += arr[i];
+            if(sum == 0){
+                ans = max(ans, i+1);
+            }
+            else if(mp.find(sum) != mp.end()){
+                ans = max(ans, i-mp[sum]);
+            }else{
+                mp[sum] = i;
+            }
+        }
+        return ans;
+    }
+};
+
+// 
