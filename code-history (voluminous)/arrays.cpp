@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <stack>
 using namespace std;
 
@@ -419,6 +420,7 @@ public:
 };
 
 
+<<<<<<< HEAD
 // https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/
 // Largest subarray with 0 sum
 
@@ -485,3 +487,95 @@ class Solution{
 };
 
 // 
+=======
+// https://leetcode.com/problems/next-permutation/
+// next permutation problem
+
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        // brute force -> make all possible combinations -> chose next one from there
+        // TC: (N! * N)
+        // not doing this approach
+
+        // Approach with break point
+        int n = nums.size(), bp = -1;
+
+        /*
+
+        {2, 1 ,5,4, 3 ,0,0}
+        {2, 3 ,0,0, 1 ,4,5}
+
+
+        */
+        
+        // find the break point (bp) -> point from end where nums[i] < nums[i+1]
+        for(int i = n-2; i >= 0; i--){
+            if(nums[i] < nums[i+1]){
+                bp = i;
+                break;
+            }
+        }
+
+        // edge case that if it is the last sequence
+        if(bp == -1){
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+
+        // run loop to find the nge of bp
+        for(int i = n-1; i >= 0; i--){
+            // swap bp and nge
+            if(nums[i] > nums[bp]){
+                swap(nums[i], nums[bp]);
+                break;
+            }
+        }
+
+        // reverse all elements from bp + 1 to end
+
+        reverse(nums.begin() + bp + 1, nums.end());
+        return;
+    }
+};
+
+# define vi vector<int>
+
+
+// permutations
+// https://leetcode.com/problems/permutations/
+
+class Solution {
+
+    void helper(vi& nums, vector<vi>& ans, vi& temp, vector<bool>& vis, int n){
+        if(temp.size() == n){
+            ans.push_back(temp);
+            return;
+        }
+
+        for(int i = 0; i < n; i++){
+            if(!vis[i]){
+                vis[i] = true;
+                temp.push_back(nums[i]);
+
+                helper(nums, ans, temp, vis, n);
+
+                vis[i] = false;
+                temp.pop_back();
+            }
+        }
+    }
+
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        int n = nums.size();
+        vector<vi> ans;
+        vi temp;
+        vector<bool> vis(n, false);
+
+        helper(nums, ans, temp, vis, n);
+    }
+};
+
+
+>>>>>>> 0ff172454043bf9c7ce8fd8ea60ecccc83dffd10
