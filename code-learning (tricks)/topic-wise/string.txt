@@ -6,8 +6,16 @@ longest palindormic substring
 
 
 longest-common-prefix
-
     // approach -> assuming the first string to be the longest common prefix, we start comparing each of the other strings to it and we update ans to be the longest common substring out of these
 
 Repeated String Match (Rabin Karp algorithm)
+    instead of matching all substrings of equal length, first check if the hash value is the same, if same then start comparing one by one
+    to calculate hash value, chose a suitbale base and a prime modulus
+
+    principle : if two strings are qual, their hash values are also equal
     
+
+Minimum Characters required to make a String Palindromic
+(KMP algorithm)
+    will do later
+    https://medium.com/@aakashjsr/preprocessing-algorithm-for-kmp-search-lps-array-algorithm-50e35b5bb3cb#:~:text=LPS%20is%20simply%20the%20name,the%20first%20'i'%20characters.
