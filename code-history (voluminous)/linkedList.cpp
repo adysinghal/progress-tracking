@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 using namespace std;
 
 
@@ -256,3 +257,134 @@ public:
         return;
     }
 };
+
+
+// https://leetcode.com/problems/intersection-of-two-linked-lists/
+// intersection-of-two-linked-lists/
+
+// approach 1 : traverse from both nodes and find length of both lists (l1 > l2)always
+// move l1 head l1-l2 nodes ahead and then traverse both of them together till they collide
+// TC : O(n+m)
+// SC : O(1)
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int l1 = 0, l2 = 0;
+        ListNode* temp = headA;
+        
+        // calculating l1
+        while(temp){
+            l1++;
+            temp = temp->next;
+        }
+        
+        temp = headB;
+        while(temp){
+            l2++;
+            temp = temp->next;
+        }
+
+
+        // always make l1 bigger
+        if(l1 < l2){
+            // swap l1 and l2
+            int tempnum = l1;
+            l1 = l2;
+            l2 = tempnum;
+
+            // swap headA and headB
+            temp = headA;
+            headA = headB;
+            headB = temp;
+        }
+        int diff = l1 - l2;
+        ListNode *a = headA, *b = headB;
+        while(diff){
+            a = a->next;
+            diff--;
+        }
+
+        while(a != b && a && b){
+            a = a->next;
+            b = b->next;
+        }
+        return a;
+    }
+};
+
+
+// Approach 2 : Hashing
+// TC : O(N+M)
+// SC : O(N)
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_set<ListNode*> st;
+
+        while(headA){
+            st.insert(headA);
+            headA = headA->next;
+        }
+
+        while(headB){
+            if(st.find(headB) == st.end()){
+                st.insert(headB);
+            }
+            else return headB;
+            headB = headB->next;
+        }
+        return NULL;
+    }
+};
+
+
+// https://leetcode.com/problems/palindrome-linked-list/
+// palindrome-linked-list
+
+// TC : O(N)
+// SC : O(1)
+class Solution {
+
+    ListNode* reverse(ListNode* head){
+        if(!head->next)return head;
+
+        ListNode* newHead = reverse(head->next);
+
+        head->next->next = head;
+        head->next = nullptr;
+        return newHead;
+
+    }
+
+
+public:
+    bool isPalindrome(ListNode* head) {
+        if(!head || !head->next)return true;
+
+        ListNode *fast = head, *slow = head;
+
+        while(fast && fast->next && fast->next->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+
+        slow->next = reverse(slow->next);
+        slow = slow->next;
+        ListNode *temp = head;
+
+        while(slow){
+            if(slow->val == temp->val){
+                slow = slow->next;
+                temp = temp->next;
+            }
+            else return false;
+        }
+        return true;
+      
+    }
+};
+
+
+
+
