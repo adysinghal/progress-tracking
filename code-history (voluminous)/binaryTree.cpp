@@ -308,16 +308,158 @@ public:
 
 // https://leetcode.com/problems/symmetric-tree/
 
+
 class Solution {
+
+    bool helper(TreeNode* leftNode, TreeNode* rightNode){
+        if(!leftNode && !rightNode)return true;
+        if(!leftNode || !rightNode)return false;
+
+        bool leftCheck = helper(leftNode->left, rightNode->right);
+        bool rightCheck = helper(leftNode->right, rightNode->left);
+
+        if(!leftCheck || !rightCheck)return false;
+
+        if(leftNode->val == rightNode->val)return true;
+
+        return false;        
+    }
+
 public:
     bool isSymmetric(TreeNode* root) {
         if(!root)return true;
-
-        bool leftNodew = isSymmetric(root->left);
-        bool right = isSymmetric(root->right);
-
-        if(!left || !right)return false;
-
-        // if(root->left->val == )
+        return helper(root, root);
     }
 };
+
+// cleaner code, combined all conditions in the return statement with &&
+class Solution {
+
+    bool helper(TreeNode* leftNode, TreeNode* rightNode){
+        // if both are nullptr, it will return a true, otherwise a false      
+        if(!leftNode || !rightNode)return leftNode == rightNode;
+
+        return (leftNode->val == rightNode->val) && helper(leftNode->left, rightNode->right) && helper(leftNode->right, rightNode->left);
+    }
+
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root)return true;
+        return helper(root, root);
+    }
+};
+
+// https://www.codingninjas.com/studio/problems/boundary-traversal-of-binary-tree_790725?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+/************************************************************
+
+    Following is the Binary Tree node structure:
+
+    template <typename T>
+    class TreeNode
+    {
+    public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data)
+        {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode()
+        {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+bool isLeaf(TreeNode<int>* root){
+    return !root->left && !root->right;
+}
+
+void inorder(TreeNode<int>* root, vector<int>& ans){
+    if(!root)return;
+    
+    if(isLeaf(root))ans.push_back(root->data);
+
+    inorder(root->left, ans);
+    inorder(root->right, ans);
+    
+    return;
+}
+
+
+vector<int> traverseBoundary(TreeNode<int> *root)
+{
+    // we need to print in the following fashion
+    // root of the tree
+    // left boundary (excluding leaves)
+    // leaf nodes
+    // right boundary (excluding leaves)
+
+    vector<int> ans;
+    ans.push_back(root->data);
+
+    // now for left boundary
+    TreeNode<int>* temp = root->left;
+    // while(temp){
+    //     ans.push_back(temp->data);
+    //     if(temp->left){
+    //         if(!isLeaf(temp->left))temp = temp->left;
+    //         else temp = nullptr;
+    //     }
+    //     else if(temp->right){
+    //         if(!isLeaf(temp->right))temp = temp->right;
+    //         else temp = nullptr;
+    //     }
+    //     else break;
+    // }
+
+    while (temp) {
+        if(!isLeaf(temp))ans.push_back(temp->data);
+        if (temp->left)temp = temp->left;
+        else temp = temp->right;
+        
+    }
+
+    // now push the leaf nodes
+    inorder(root, ans);
+
+
+    // right boundary in reverse
+    vector<int> tempAns;
+    temp = root->right;
+    
+    // while(temp){
+    //     tempAns.push_back(temp->data);
+    //     if(temp->right){
+    //         if(!isLeaf(temp->right))temp = temp->right;
+    //         else temp = nullptr;
+    //     }
+    //     else if(temp->left){
+    //         if(!isLeaf(temp->left))temp = temp->left;
+    //         else temp = nullptr;
+    //     }
+    //     else break;
+    // }
+
+    while (temp) {
+        if(!isLeaf(temp))tempAns.push_back(temp->data);
+        if (temp->left)temp = temp->left;
+        else temp = temp->right;
+    }
+    
+    for(int i = tempAns.size()-1; i >= 0; i--){
+        ans.push_back(tempAns[i]);
+    }
+
+    return ans;
+    
+}
