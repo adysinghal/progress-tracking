@@ -218,4 +218,106 @@ public:
 
 
 
+// https://leetcode.com/problems/same-tree/
 
+
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if(!p && !q)return true;
+        if(!p || !q)return false;
+
+        if(p->val != q->val)return false;
+
+        bool left = isSameTree(p->left, q->left);
+        bool right = isSameTree(p->right, q->right);
+
+        if(!left || !right)return false;
+        return true;
+    }
+};
+
+
+
+
+
+// https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<vector<int>> ans;
+        int level = 0;
+
+        while(!q.empty()){
+            level++;
+            vector<int> temp;
+            int s = q.size();
+            
+            for(int i = 0; i < s; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                temp.push_back(node->val);
+                
+                if(node->left)q.push(node->left);
+                if(node->right)q.push(node->right);
+            }
+            if(level % 2 == 0)reverse(temp.begin(), temp.end());
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
+
+
+
+// https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+
+
+
+class Solution {
+
+    int dfs(TreeNode* root, int &ans){
+        // we will return the node -> val + max(left, right)
+        // also update the ans variable with left + right + node->val
+
+        if(!root)return 0;
+        
+        int left = max(dfs(root->left, ans), 0);
+        int right = max(dfs(root->right, ans), 0);
+
+        // update ans
+        ans = max(ans, left + right + root->val);
+
+        return root->val + max(left, right);
+    }
+
+public:
+    int maxPathSum(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+
+
+
+
+// https://leetcode.com/problems/symmetric-tree/
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root)return true;
+
+        bool leftNodew = isSymmetric(root->left);
+        bool right = isSymmetric(root->right);
+
+        if(!left || !right)return false;
+
+        // if(root->left->val == )
+    }
+};

@@ -1,0 +1,6 @@
+In particular questions like maxPathSum and diameter (where you can go from one node to any other node)
+{
+    pass the actual ans variable by reference and keep updating it at each step
+
+    keep returning the ideal answer while including the root value to discover more options in the higher nodes
+}
