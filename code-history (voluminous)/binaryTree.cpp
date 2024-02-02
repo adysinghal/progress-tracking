@@ -380,14 +380,14 @@ public:
     };
 
 ************************************************************/
-bool isLeaf(TreeNode<int>* root){
+bool isLeaf(TreeNode* root){
     return !root->left && !root->right;
 }
 
-void inorder(TreeNode<int>* root, vector<int>& ans){
+void inorder(TreeNode* root, vector<int>& ans){
     if(!root)return;
     
-    if(isLeaf(root))ans.push_back(root->data);
+    if(isLeaf(root))ans.push_back(root->val);
 
     inorder(root->left, ans);
     inorder(root->right, ans);
@@ -396,7 +396,7 @@ void inorder(TreeNode<int>* root, vector<int>& ans){
 }
 
 
-vector<int> traverseBoundary(TreeNode<int> *root)
+vector<int> traverseBoundary(TreeNode *root)
 {
     // we need to print in the following fashion
     // root of the tree
@@ -405,10 +405,10 @@ vector<int> traverseBoundary(TreeNode<int> *root)
     // right boundary (excluding leaves)
 
     vector<int> ans;
-    ans.push_back(root->data);
+    ans.push_back(root->val);
 
     // now for left boundary
-    TreeNode<int>* temp = root->left;
+    TreeNode* temp = root->left;
     // while(temp){
     //     ans.push_back(temp->data);
     //     if(temp->left){
@@ -423,7 +423,7 @@ vector<int> traverseBoundary(TreeNode<int> *root)
     // }
 
     while (temp) {
-        if(!isLeaf(temp))ans.push_back(temp->data);
+        if(!isLeaf(temp))ans.push_back(temp->val);
         if (temp->left)temp = temp->left;
         else temp = temp->right;
         
@@ -451,7 +451,7 @@ vector<int> traverseBoundary(TreeNode<int> *root)
     // }
 
     while (temp) {
-        if(!isLeaf(temp))tempAns.push_back(temp->data);
+        if(!isLeaf(temp))tempAns.push_back(temp->val);
         if (temp->left)temp = temp->left;
         else temp = temp->right;
     }
@@ -459,7 +459,83 @@ vector<int> traverseBoundary(TreeNode<int> *root)
     for(int i = tempAns.size()-1; i >= 0; i--){
         ans.push_back(tempAns[i]);
     }
-
     return ans;
-    
 }
+
+
+
+// https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+
+class Solution {
+    TreeNode* prev = NULL;
+public:
+
+
+    void flatten(TreeNode* root) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        // we traverse in reverse preorder fashion
+        // make a class variable called prev
+        // every time we visit a node, update (root->right = prev), (root->left = NULL) and make (prev = root)
+
+        if(!root)return;
+
+        flatten(root->right);
+        flatten(root->left);
+
+        root->right = prev;
+        root->left = NULL;
+        prev = root;
+    }
+};
+
+
+
+// https://www.codingninjas.com/studio/problems/children-sum-property_8357239?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=SUBMISSION
+// Following is the class structure of the Node class:
+
+class Node
+{
+public:
+    int data;
+    Node *left, *right;
+    Node()
+    {
+        this->data = 0;
+        left = NULL;
+    }
+    Node(int data)
+    {
+        this->data = data; 
+        this->left = NULL;
+        this->right = NULL;
+    }
+    Node(int data, Node* left, Node* right)
+    {
+        this->data = data;
+        this->left = left;
+        this->right = right;
+    }
+};
+
+
+bool isParentSum(Node *root){
+    if(!root)return true;
+    
+    // return true if leaf node
+    if(!root->left && !root->right)return true;
+
+
+    bool leftAns = isParentSum(root->left);
+    bool rightAns = isParentSum(root->right);
+    if(!leftAns || !rightAns)return false;
+
+    // calculate values of leftsum and rightsum
+    int leftSum = (root->left) ? root->left->data : 0;
+    int rightSum = (root->right) ? root->right->data : 0;
+
+    if(root->data == leftSum + rightSum)return true;
+    else return false;
+}
+
+
