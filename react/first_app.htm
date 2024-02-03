@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="uft-8">
+    <title>React!</title>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+        #container{
+            padding: 50px;
+            background-color: #eee;
+        }
+        #container h1{
+            font-size: 20px;
+            font-family:sans-serif;
+            color: #0080a8;
+
+
+        }
+        button{
+            font-size: 30px;
+                
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+
+    <script type="text/babel">
+        
+        class Buttonify extends React.Component{
+            render(){
+                return (
+                    <div>
+                        <button type={this.props.behaviour}>{this.props.children}</button>
+                    </div>
+                );
+            }
+        }
+        
+        var destination = document.querySelector("#container")
+
+
+
+        ReactDOM.render(
+            <div>
+                <Buttonify behaviour = "submit">SEND SAD</Buttonify>
+            </div>,
+            destination
+        );
+    </script>
+
+</body>
+
+
+</html>
