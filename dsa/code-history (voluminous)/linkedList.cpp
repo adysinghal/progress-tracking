@@ -386,5 +386,82 @@ public:
 };
 
 
+// Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
 
+// k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes 
+// is not a multiple of k then left-out nodes, in the end, should remain as it is.
+
+// You may not alter the values in the list's nodes, only nodes themselves may be changed.
+
+// Input: head = [1,2,3,4,5], k = 2
+// Output: [2,1,4,3,5]
+
+// input :
+// 1 -> 2 -> 3 -> 4 -> 5
+
+// output: 
+// 2 -> 1 -> 4 -> 3 -> 5
+
+class Solution {
+public:
+    ListNode* reverse(ListNode* head, int counter, int k){
+        if(counter == k-1 || !head){
+            return head;
+        }
+
+        ListNode* newHead = reverse(head->next, counter+1, k);
+
+        head->next->next = head;
+        head->next = NULL;
+        return newHead;
+
+    }
+
+
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        // make dummy node
+        ListNode* dummy = new ListNode;
+        dummy->val = -1;
+        dummy->next = head;
+
+        // reverse nodes (with counter that terminates at k)
+        ListNode* prev = dummy;
+        
+        while(prev->next){
+
+            ListNode* temp = prev->next;
+            ListNode* nextNode = prev->next;
+            int counter = 0;
+            
+            while(counter < k && nextNode){
+                nextNode = nextNode->next;
+                counter++;
+            }
+            if(counter != k)return dummy->next;
+
+            ListNode* newHead = reverse(temp, 0, k);
+            
+            prev->next = newHead;
+            temp = newHead;
+            counter = 0;
+            while(counter < k-1 && temp->next){
+                temp = temp->next;
+                counter++;
+            }
+            prev = temp;
+            temp->next = nextNode;
+        }
+        return dummy->next;
+        
+    }
+};
+
+
+// input :
+// dummy -> 1 -> 2 -> 3 -> 4 -> 5
+//               temp
+//               prev
+//                    nextNode
+// counter = 1
 
