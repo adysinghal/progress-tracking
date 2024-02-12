@@ -1,107 +1,50 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include <unordered_map>
 using namespace std;
 
-// struct Tree{
-//     int val;
-//     Tree *left;
-//     Tree *right;
-
-//     Tree(): val(0), left(nullptr), right(nullptr) {}
-//     Tree(int x): val(x), left(nullptr), right(nullptr) {}
-//     Tree(int x, Tree *left, Tree *right): val(x), left(left), right(right){}
-// };
-
-//     // pair -> height, diameter
-
-// pair<int,int> heightAndDiameter(Tree* root, int& ans){
-
-//     pair<int,int> p;
-//     if(!root)return p;
-
-//     pair<int,int> left = heightAndDiameter(root->left, ans);
-//     pair<int,int> right = heightAndDiameter(root->right, ans);
-
-//     ans = max(ans, left.second + right.second);
-
-//     p.first = 1 + max(left.first, right.first);
-//     p.second = 1 + max(left.second, right.second);
-
-//     return p;
-// }
-
-// int main(){
-//     Tree *head = new Tree(1);
-//     Tree *node2 = new Tree(2);
-//     Tree *node3 = new Tree(3);
-//     Tree *node4 = new Tree(4);
-//     Tree *node5 = new Tree(5);
-//     Tree *node6 = new Tree(6);
-//     Tree *node7 = new Tree(7);
-//     head->left = node2;
-//     head->right = node3;
-//     node2->left = node4;
-//     // node2->right = node5;
-//     node3->left = node6;
-//     // node3->right = node7;
-//     node4->left = node7;
-//     node7->right = node5;
-
-
-//     int diameter = 0;
-    
-//     pair<int,int> p = heightAndDiameter(head, diameter);
-//     cout << "Height is: " << p.first << " \n Diameter is: " << diameter << endl;
-
-// }
-
-// /*
-//         1
-//       /    \
-//      2      3
-//     / \    / 
-//    4   5   6  
-//   / 
-//  7
-// */      
-
-class Solution {
-public:
-    int trap(vector<int>& height) {
-        int n = height.size();
-        vector<int> left(n), right(n);
-
-        int lmax = 0;
-        for(int i = 0; i < n; i++){
-            if(height[i] > lmax){
-                lmax = height[i];
-            }
-            left[i] = lmax;
+pair<string,string> divide(string s){
+    for(int i = 0; i < s.size(); i++){
+        if(s[i] == ':'){
+            string first = s.substr(0, i-1);
+            string second = s.substr(i+1, s.size()-1);
+            return {first, second};
         }
-
-        
-        int rmax = 0;
-        for(int i = n-1; i >= 0; i--){
-            if(height[i] > rmax){
-                rmax = height[i];
-            }
-            right[i] = rmax;
-        }
-
-        int ans = 0;
-        
-        for(int i = 0; i < n; i++){
-            int temp = min(left[i], right[i]) - height[i];
-            ans += (temp < 0) ? 0 : temp;
-        }
-
-        return ans;
     }
-};
-
-int main(){
-    Solution s;
-    vector<int> v = {4,2,0,3,2,5};
-    cout << s.trap(v) << endl;
+    return {};
 }
 
+vector<string> computeParameterValue(vector<vector<string> > sources){
+    unordered_map<string, string> mp;
+    
+    // number of streams
+    int n = sources.size();
+    
+    // number of entries
+    int m = sources[0].size();
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            pair<string,string> p = divide(sources[i][j]);
+            
+            mp[p.first] = p.second;
+        }
+    }
+    vector<string> ans;
+    for(auto it : mp){
+        ans.push_back(it.second);
+    }
+    return ans;
+}
+
+int main(){
+    vector<vector<string> > test;
+
+    test.push_back({"p1:a", "p3:b", "p5:x"}); 
+    test.push_back({"p1:b", "p2:q", "p5:x"});
+    vector<string> ans = computeParameterValue(test);
+    for(auto it : ans){
+        cout << it << endl;
+    }
+}

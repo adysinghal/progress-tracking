@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <map>
 
 using namespace std;
 
@@ -129,6 +130,10 @@ public:
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
+
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
         vector<int> freq(26, 0);
         int maxSizeFreq = 0, sz = tasks.size(), maxSize = 0;
         
@@ -142,8 +147,107 @@ public:
             if(i == maxSize)maxSizeFreq++;
         }
 
-        int time = ((n+1) * maxSize) + maxSizeFreq;
+        int time = ((n+1) * (maxSize-1)) + maxSizeFreq;
         
         return max(time, sz);
     }
 };
+
+
+
+
+// https://leetcode.com/problems/hand-of-straights/
+
+// approach using array and map
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+
+        int n = hand.size();
+        if(n%groupSize != 0)return false;
+
+        map<int,int> mp;
+        for(auto i : hand){
+            mp[i]++;
+        }
+        
+        while(!mp.empty()){
+            vector<int> temp;
+            for(auto it : mp){
+                temp.push_back(it.first);
+                mp[it.first]--;
+
+                // remove value if freq is zero
+                if(mp[it.first] == 0){
+                    mp.erase(it.first);
+                }
+
+                // end for loop after making the 
+                if(temp.size() == groupSize)break;
+            }
+
+            if(temp.size() != groupSize)return false;
+
+            for(int i = 0; i < temp.size()-1; i++){
+                if(temp[i+1] - temp[i] != 1)return false;
+            }
+        }
+
+        return true;
+
+    }
+};
+
+
+
+// priority queue approach
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
+        if(hand.size() % groupSize != 0)return false;
+
+        priority_queue<int, vector<int>, greater<int> > pq;
+        for(int i : hand){
+            pq.push(i);
+        }
+
+        while(!pq.empty()){
+            vector<int> repeat;
+            int prev = pq.top();
+            pq.pop();
+            int counter = 1;
+
+            while(!pq.empty() && counter < groupSize){
+                
+                // case of repeat characters
+                if(pq.top() == prev){
+                    repeat.push_back(pq.top());
+                    pq.pop();
+                }else if(pq.top() == prev+1){
+                    prev = pq.top();
+                    counter++;
+                    pq.pop();
+                }
+                else{
+                    return false;
+                }
+
+            }
+
+            if(counter != groupSize)return false;
+            for(int it : repeat){
+                pq.push(it);
+            }
+
+        }
+        return true;
+    }
+};
+
