@@ -1,107 +1,256 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+// #include<bits/stdc++.h>
+// #define ll long long 
 
-// struct Tree{
-//     int val;
-//     Tree *left;
-//     Tree *right;
+// using namespace std;
 
-//     Tree(): val(0), left(nullptr), right(nullptr) {}
-//     Tree(int x): val(x), left(nullptr), right(nullptr) {}
-//     Tree(int x, Tree *left, Tree *right): val(x), left(left), right(right){}
-// };
-
-//     // pair -> height, diameter
-
-// pair<int,int> heightAndDiameter(Tree* root, int& ans){
-
-//     pair<int,int> p;
-//     if(!root)return p;
-
-//     pair<int,int> left = heightAndDiameter(root->left, ans);
-//     pair<int,int> right = heightAndDiameter(root->right, ans);
-
-//     ans = max(ans, left.second + right.second);
-
-//     p.first = 1 + max(left.first, right.first);
-//     p.second = 1 + max(left.second, right.second);
-
-//     return p;
-// }
 
 // int main(){
-//     Tree *head = new Tree(1);
-//     Tree *node2 = new Tree(2);
-//     Tree *node3 = new Tree(3);
-//     Tree *node4 = new Tree(4);
-//     Tree *node5 = new Tree(5);
-//     Tree *node6 = new Tree(6);
-//     Tree *node7 = new Tree(7);
-//     head->left = node2;
-//     head->right = node3;
-//     node2->left = node4;
-//     // node2->right = node5;
-//     node3->left = node6;
-//     // node3->right = node7;
-//     node4->left = node7;
-//     node7->right = node5;
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(NULL);
+//     int t;
+
+//     cin >> t;
+
+//     while(t--){
+
+//         int n, x, y;
+//         cin >> n >> x >> y;
+
+//         vector<int> arr(n);
+//         for(int i = 0; i < n; i++){
+//             cin >> arr[i];
+//         }   
+//         int ans = 0;
+
+//         vector<int> sum;
+//         vector<int> diff;
+
+//         for(int i = 0; i < n; i++){
+//             if(find(sum.begin(), sum.end(), arr[i]%x) != sum.end()){
+//                 if(find(diff.begin(), diff.end() ,arr[i]%y) != diff.end()){
+//                     ans++;
+//                 }
+//             }
+//             sum.push_back(x-(arr[i]%x));
+//             diff.push_back(arr[i]%y);
+//         }
 
 
-//     int diameter = 0;
-    
-//     pair<int,int> p = heightAndDiameter(head, diameter);
-//     cout << "Height is: " << p.first << " \n Diameter is: " << diameter << endl;
+//         cout << "sum array: ";
+//         for(int i = 0; i < n; i++){
+//             cout << sum[i] << " ";
+//         }
+//         cout << endl;
+//         cout << "diff array: ";
+//         for(int i = 0; i < n; i++){
+//             cout << diff[i] << " ";
+//         }
+//         cout << endl;
 
+
+//         cout << ans << endl;
+
+//     }
+//     return 0;
 // }
 
-// /*
-//         1
-//       /    \
-//      2      3
-//     / \    / 
-//    4   5   6  
-//   / 
-//  7
-// */      
 
-class Solution {
-public:
-    int trap(vector<int>& height) {
-        int n = height.size();
-        vector<int> left(n), right(n);
+// #include<bits/stdc++.h>
+// #define ll long long 
 
-        int lmax = 0;
-        for(int i = 0; i < n; i++){
-            if(height[i] > lmax){
-                lmax = height[i];
-            }
-            left[i] = lmax;
-        }
+// using namespace std;
 
+// #include <iostream>
+// #include <unordered_set>
+
+// struct PairHash {
+//     template <typename T1, typename T2>
+//     std::size_t operator()(const std::pair<T1, T2>& p) const {
+//         auto hash1 = std::hash<T1>{}(p.first);
+//         auto hash2 = std::hash<T2>{}(p.second);
+
+//         // Combining the hash values for the two elements
+//         return hash1 ^ hash2;
+//     }
+// };
+
+// int  factorial(int n) {
+//     if (n == 0 || n == 1) {
+//         return 1;
+//     } else {
+//         return n * factorial(n - 1);
+//     }
+// }
+
+// int main() {
+
+//     int t;
+
+//     cin >> t;
+
+//     while(t--){
+
+//         int n, x, y;
+//         cin >> n >> x >> y;
+
+//         vector<int> arr(n);
+//         for(int i = 0; i < n; i++){
+//             cin >> arr[i];
+//         }   
+//         int ans = 0;
+
+//         std::unordered_set<std::pair<int, int>, PairHash> p;
+
+        // for(int i = 0; i < n; i++){
+        //     if(p.find({arr[i]%x, arr[i]%y}) != p.end())ans++;
+
+        //     p.emplace(x-(arr[i]%x), arr[i]%y);
+        // }
+
+//         unordered_map<int,int> mp;
+//         // to handle duplicate values
+//         for(int i = 0; i < n; i++){
+//             mp[arr[i]]++;
+//         }
+
+//         for(auto it:mp){
+//             if(it.second == 1)continue;
+//             if((it.first * 2) % x == 0){
+//                 ans += ((it.second)*(it.second-1)/2);;
+//             }
+//         }
+
+
+//         cout << ans << endl;
         
-        int rmax = 0;
-        for(int i = n-1; i >= 0; i--){
-            if(height[i] > rmax){
-                rmax = height[i];
-            }
-            right[i] = rmax;
-        }
-
-        int ans = 0;
         
-        for(int i = 0; i < n; i++){
-            int temp = min(left[i], right[i]) - height[i];
-            ans += (temp < 0) ? 0 : temp;
-        }
+//     }
+//     return 0;
+// }
 
-        return ans;
-    }
-};
+
+#include<bits/stdc++.h>
+// #define ll long long 
+
+// using namespace std;
+
+
+// int main(){
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(NULL);
+//     int t;
+
+//     cin >> t;
+
+//     while(t--){
+
+//         int n, x, y;
+//         cin >> n >> x >> y;
+
+//         vector<int> arr(n);
+//         for(int i = 0; i < n; i++){
+//             cin >> arr[i];
+//         }   
+//         int ans = 0;
+
+//         vector<int> sum;
+//         vector<int> diff;
+
+//         for(int i = 0; i < n; i++){
+//             if(find(sum.begin(), sum.end(), arr[i]%x) != sum.end()){
+//                 if(find(diff.begin(), diff.end() ,arr[i]%y) != diff.end()){
+//                     ans++;
+//                 }
+//             }
+//             sum.push_back(x-(arr[i]%x));
+//             diff.push_back(arr[i]%y);
+//         }
+
+
+//         cout << "sum array: ";
+//         for(int i = 0; i < n; i++){
+//             cout << sum[i] << " ";
+//         }
+//         cout << endl;
+//         cout << "diff array: ";
+//         for(int i = 0; i < n; i++){
+//             cout << diff[i] << " ";
+//         }
+//         cout << endl;
+
+
+//         cout << ans << endl;
+
+//     }
+//     return 0;
+// }
+
+#include<bits/stdc++.h>
+#define ll long long 
+
+using namespace std;
+
 
 int main(){
-    Solution s;
-    vector<int> v = {4,2,0,3,2,5};
-    cout << s.trap(v) << endl;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+
+    cin >> t;
+
+    while(t--){
+
+        int n, x, y;
+        cin >> n >> x >> y;
+
+        vector<int> arr(n);
+        for(int i = 0; i < n; i++){
+            cin >> arr[i];
+        }   
+        int ans = 0;
+
+        // unordered_map<int, pair<int,int>> mp;
+        // unordered_map<unordered_map<int,int>, int> mp;
+
+        // unordered_set<pair<int,int>> p;
+
+        // {1, 0} {1, 0}
+        // 5=x, 2=y
+        // 4 6
+
+        // for(int i = 0; i < n; i++){
+
+        // }
+
+        cout << ans << endl;
+
+    }
+    return 0;
 }
 
+
+/*
+
+6 5 2
+1 9, 4 6
+
+20 10
+{5,0}
+
+
+<pair<int,int>, int>
+
+compare
+{{arr[i]%x, arr[i]%}, freq}
+{4,1}
+
+add
+{{(x-(arr[i]%x))%x, arr[i]%y}, freq}
+
+
+mp
+{{4,1}, 1}
+
+ans = 1
+
+*/
