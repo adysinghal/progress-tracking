@@ -251,3 +251,85 @@ public:
     }
 };
 
+// https://leetcode.com/problems/merge-k-sorted-lists/description/
+
+class Solution {
+
+    ListNode* merge(ListNode* l1, ListNode* l2){
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy, *left = l1, *right = l2;
+
+        while(left && right){
+            if(left->val <= right->val){
+                curr->next = left;
+                curr = curr->next;
+                left = left->next;
+            }else{
+                curr->next = right;
+                curr = curr->next;
+                right = right->next;
+            }
+        }
+
+        if(left){
+            curr->next = left;
+        }
+
+        if(right){
+            curr->next = right;
+        }
+
+        return dummy->next;
+    }
+
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size() == 0)return nullptr;
+        else if(lists.size() == 1)return lists[0];
+        
+        int n = lists.size();
+        ListNode* head = lists[0];
+        for(int i = 1; i < n; i++){
+            head = merge(head, lists[i]);
+        }
+
+        return head;
+    }
+};
+
+
+
+
+// https://leetcode.com/problems/kth-largest-element-in-a-stream/description/
+class KthLargest {
+    priority_queue<int, vector<int>, greater<int>> pq;  // min heap
+
+public:
+    KthLargest(int k, vector<int>& nums) {
+        for(int i = 0; i < k; i++){
+            pq.push(nums[i]);
+        }
+
+        for(int i = k+1; i < nums.size(); i++){
+            if(pq.top() < nums[i]){
+                pq.pop();
+                pq.push(nums[i]);
+            }
+        }
+    }
+    
+    int add(int val) {
+        if(val > pq.top()){
+            pq.pop();
+            pq.push(val);
+        }
+        int ans = pq.top();
+        return ans;
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
