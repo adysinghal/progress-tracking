@@ -91,3 +91,76 @@ public:
     }
 };
 
+
+
+
+// https://leetcode.com/problems/jump-game/
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        int maxIndex = 0;
+        for(int i = 0; i < n; i++){
+            if(maxIndex >= n)return true;
+            
+            if(nums[i] == 0 && maxIndex == i)return false;
+
+            maxIndex = max(maxIndex, i+nums[i]);
+        }
+        return true;
+    }
+};
+
+
+
+// https://leetcode.com/problems/jump-game-ii/description/
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int maxReach = 0, ans = 0, curr = 0;
+
+        while(curr < nums.size()){
+            for(int i = 0; i < nums[curr]; i++){
+                maxReach = max(maxReach, curr + nums[curr]);
+            }
+
+            ans++;
+            curr = maxReach;
+        }
+
+        return ans;
+    }
+};
+
+
+// https://leetcode.com/problems/candy/
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n = ratings.size();
+        vector<int> ans(n, 1);
+
+        for(int i = 1; i < n; i++){
+            if(ratings[i-1] < ratings[i]){
+                ans[i] = ans[i-1]+1;
+            }
+        }
+
+        for(int i = n-2; i >= 0; i--){
+            if(ratings[i+1] < ratings[i]){
+                ans[i] = max(ans[i+1] + 1, ans[i]);
+            }
+        }
+
+        int sum = 0;
+        for(auto i : ans){
+            sum += i;
+        }
+
+        return sum;
+    }
+};
+
+
+
