@@ -3,20 +3,6 @@
 
 using namespace std;
 
-bool check(ll start, ll end, vector<ll> &arr){
-    unordered_map<ll,ll> freq;
-    
-    int threshold = (end-start+1)/2;
-    
-    for(ll i = start; i <= end; i++){
-        freq[arr[i]]++;
-        if(freq[arr[i]] > threshold)return false;
-    }
-    
-    return true;
-}
-
-
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -28,24 +14,28 @@ int main(){
         
         ll n, q;
         cin >> n >> q;
-        vector<ll> arr(n);
 
-        for(ll i = 0; i < n; i++){
-            cin >> arr[i];
+        // 1-index based arrays
+        vector<ll> preSum(1, 0);
+        vector<int> count1(1, 0);
+        
+        for(int i = 0; i < n; i++){
+            int temp;
+            cin >> temp;
+            
+            preSum.push_back(preSum.back() + temp);
+            count1.push_back(count1.back() + (temp == 1));
         }
 
-        vector<pair<ll,ll>> query(q);
+        while(q--){
+            int l, r;
+            cin >> l >> r;
+            l--;
 
-        for(ll i = 0; i < q; i++){
-            cin >> query[i].first;
-            cin >> query[i].second;
-        }
+            int c1 = count1[r] - count1[l];
+            int sum = preSum[r] - preSum[l];
 
-
-        for(ll i = 0; i < q; i++){
-            bool ans = check((query[i].first) - 1, (query[i].second) - 1, arr);
-
-            cout << ((ans) ? "YES" : "NO") << endl;
+            cout << ((r-l > 1 && sum - (r-l) - c1 >= 0) ? "YES" : "NO") << endl;
         }
 
     }
