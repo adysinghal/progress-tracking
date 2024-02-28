@@ -1,76 +1,37 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <unordered_map>
-#include <algorithm>
-using namespace std;
-#define ll long long 
 
+bool helper(vector<vector<int>>& adj, vector<int>& vis, int parent, int node){
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int t;
+    vis[node] = 1;
 
-    cin >> t;
-
-    while(t--){
-        int n, m, k;
-        cin >> n >> m >> k;
-        vector<int> a(n), b(m);
-
-        for(int i = 0; i < n; i++){
-            cin >> a[i];
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            if(helper(adj, vis, node, it))
+                return true;
+        } else if(vis[it] == 1 && it != parent) {
+            return true;
         }
-        for(int i = 0; i < m; i++){
-            cin >> b[i];
-        }
-
-        sort(a.begin(), a.end());
-        sort(b.begin(), b.end());
-
-        int numCheck = 1, countA = 0, countB = 0;
-        int i = 0, j = 0;
-        int common = 0;
-        
-        bool flag = true;
-        
-        while((i < n || j < m) && numCheck <= k){
-            if(i < n && j < m && a[i] == numCheck && b[j] == numCheck){
-                common++;
-                while(a[i] == numCheck)i++;
-                while(b[j] == numCheck)j++;
-            }
-            else if(i < n && a[i] == numCheck){
-                countA++;
-                while(a[i] == numCheck)i++;
-            }
-            else if(j < m && b[j] == numCheck){
-                countB++;
-                while(b[j] == numCheck)j++;
-            }
-            else{
-                break;
-            }
-            numCheck++;
-        }
-        
-        if(numCheck != k+1)flag = false;
-
-        if(countA > k/2 || countB > k/2)flag = false;
-
-        if(common > k - countA - countB)flag = false;
-        
-        if(flag){
-            cout << "YES" << endl;
-        }else{
-            cout << "NO" << endl;
-        }
-        
     }
-
-
-
-    return 0;
+    return false; 
 }
 
+string cycleDetection (vector<vector<int>>& edges, int n, int m){
+    vector<vector<int>> adj(n+1);
+    for(int i = 0; i < m; i++){
+        adj[edges[i][0]].push_back(edges[i][1]);
+        adj[edges[i][1]].push_back(edges[i][0]);
+    }
+
+    vector<int> vis(n+1, 0);
+    vis[0] = 1;
+    bool flag = false;
+    for(int i = 1; i <= n; i++){
+        if(!vis[i]){
+            if(helper(adj, vis, -1, i)){
+                flag = true;
+                break;
+            }
+        }
+    }
+    
+    return (flag ? "Yes" : "No");
+}

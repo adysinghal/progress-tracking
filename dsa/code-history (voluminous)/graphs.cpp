@@ -259,3 +259,94 @@ public:
     }
 
 };
+
+
+
+
+
+// https://leetcode.com/problems/word-ladder/
+
+// brute force -> check all words (how is this a graph question?)
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        
+    }
+};
+
+
+
+// https://leetcode.com/problems/is-graph-bipartite/
+
+class Solution {
+
+    bool dfs(vector<vector<int>>& graph, vector<int>& color, int vertex, int c){
+        if(color[vertex] == !c)return false;
+        if(color[vertex] == c)return true;
+
+        color[vertex] = c;
+
+        for(auto it : graph[vertex]){
+            if(!dfs(graph, color, it, !c))return false;
+        }
+
+        return true;
+    }
+
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> color(n, -1);
+
+        
+        for(int i = 0; i < n; i++){
+            if(color[i] == -1){
+                if(!dfs(graph, color, i, 0))return false;
+            }
+        }
+
+        return true;
+    }
+};
+
+
+
+
+// https://www.codingninjas.com/studio/problems/cycle-detection-in-undirected-graph_1062670
+
+bool helper(vector<vector<int>>& adj, vector<int>& vis, int parent, int node){
+
+    vis[node] = 1;
+
+    for(int it = 0; it < adj[node].size(); it++){
+        if(!vis[it]){
+            if(helper(adj, vis, node, it))
+                return true;
+        } else if(vis[it] == 1 && it != parent) {
+            return true;
+        }
+    }
+    return false; 
+}
+
+string cycleDetection (vector<vector<int>>& edges, int n, int m){
+    vector<vector<int>> adj(n+1);
+    for(int i = 0; i < m; i++){
+        adj[edges[i][0]].push_back(edges[i][1]);
+        adj[edges[i][1]].push_back(edges[i][0]);
+    }
+
+    vector<int> vis(n+1, 0);
+    // vis[0] = 1;
+    bool flag = false;
+    for(int i = 1; i <= n; i++){
+        if(!vis[i]){
+            if(helper(adj, vis, -1, i)){
+                flag = true;
+                break;
+            }
+        }
+    }
+    
+    return (flag ? "Yes" : "No");
+}
