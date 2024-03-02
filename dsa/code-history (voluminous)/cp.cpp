@@ -1,34 +1,31 @@
 #include<bits/stdc++.h>
-#define ll long long 
-
 using namespace std;
 
+bool detectCycleDFShelper(vector<vector<int>> &adj, int n, vector<int>& vis, vector<int>& pathVis, int node){
+    vis[node] = 1;
+    pathVis[node] = 1;
+
+    for(auto it : adj[node]){
+        if(vis[it] && pathVis[it])return false;
+        if(!vis[it]){
+            if(!detectCycleDFShelper(adj, n, vis, pathVis, it))return false;
+        }
+    }
+    pathVis[node] = 0;
+    return true;
+}
+
+bool detectCycleDFS(vector<vector<int>> &adj, int n){
+    
+}
+
+
+// false -> cycle detected
+// true -> no cycle
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int t;
+    vector<vector<int>> adj1 = {{1},{2},{0}};
+    vector<vector<int>> adj2 = {{1,2},{2},{}};
 
-    cin >> t;
-
-    while(t--){
-        int x, n;
-        cin >> x >> n;
-
-        int ans = 0;
-        if(x % n == 0){
-            ans = x/n;
-        }else{
-            for(int i = x/n; i >= 1; i--){
-                if(x % i == 0){
-                    ans = x/i;
-                    break;
-                }
-            }
-        }
-
-        cout << ans << endl;
-
-    }
-    return 0;
+    cout << detectCycleDFS(adj1, 3, )
 }

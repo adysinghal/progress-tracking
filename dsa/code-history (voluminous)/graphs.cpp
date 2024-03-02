@@ -25,7 +25,7 @@ vector<int> bfsTraversal(int n, vector<vector<int>> &adj){
 
 // https://www.codingninjas.com/studio/problems/dfs-traversal_630462?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
 
-void helper(vector<vector<int>>& adj, vector<int>& vis, vector<int>& dfs, int vertex){
+void helper2(vector<vector<int>>& adj, vector<int>& vis, vector<int>& dfs, int vertex){
     if(vis[vertex] == 1)return;
 
     vis[vertex] = 1;
@@ -33,7 +33,7 @@ void helper(vector<vector<int>>& adj, vector<int>& vis, vector<int>& dfs, int ve
     dfs.push_back(vertex);
     for(auto it : adj[vertex]){
         vis[it] = 1;
-        helper(adj, vis, dfs, it);
+        helper2(adj, vis, dfs, it);
     }
 }
 
@@ -55,7 +55,7 @@ vector<vector<int>> depthFirstSearch(int n, int E, vector<vector<int>> &edges)
         if(!vis[i]){
             ans[0][0]++;
             vector<int> dfs;
-            helper(adj, vis, dfs, i);
+            helper2(adj, vis, dfs, i);
             ans.push_back(dfs);
         }
     }
@@ -314,13 +314,13 @@ public:
 
 // https://www.codingninjas.com/studio/problems/cycle-detection-in-undirected-graph_1062670
 
-bool helper(vector<vector<int>>& adj, vector<int>& vis, int parent, int node){
+bool helper1(vector<vector<int>>& adj, vector<int>& vis, int parent, int node){
 
     vis[node] = 1;
 
     for(int it = 0; it < adj[node].size(); it++){
         if(!vis[it]){
-            if(helper(adj, vis, node, it))
+            if(helper1(adj, vis, node, it))
                 return true;
         } else if(vis[it] == 1 && it != parent) {
             return true;
@@ -341,7 +341,7 @@ string cycleDetection (vector<vector<int>>& edges, int n, int m){
     bool flag = false;
     for(int i = 1; i <= n; i++){
         if(!vis[i]){
-            if(helper(adj, vis, -1, i)){
+            if(helper1(adj, vis, -1, i)){
                 flag = true;
                 break;
             }
@@ -350,3 +350,72 @@ string cycleDetection (vector<vector<int>>& edges, int n, int m){
     
     return (flag ? "Yes" : "No");
 }
+
+
+
+
+// https://leetcode.com/problems/course-schedule-ii/description/
+
+class Solution {
+
+    void helper(int n, vector<vector<int>>& adj, vector<int> &vis, int node, vector<int> &ans){
+        for(auto it:adj[node]){
+
+        }
+    }
+
+public:
+    vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(n);
+        for(int i = 0; i < prerequisites.size(); i++){
+            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        }
+
+        vector<int> vis(n, 0);
+        vector<int> ans;
+
+        for(int i = 0; i < n; i++){
+            // if(!vis[i])
+        }
+
+
+    }
+};
+
+
+
+// https://www.codingninjas.com/studio/problems/topological-sorting_973003?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+void helper(vector<vector<int>> &adj, int n, vector<int> &topo, vector<int>& vis ,stack<int> &s, int node){ 
+    vis[node] = 1;
+    for(auto it : adj[node]){
+        if(!vis[it])helper(adj, n, topo, vis, s, it);
+    }
+
+    s.push(node);
+    return;
+}
+
+vector<int> topologicalSort(vector<vector<int>> &graph, int edges, int n) {
+    vector<int> topo;
+    stack<int> st;
+    vector<int> vis(n, 0);
+
+    vector<vector<int>> adj(n);
+    for(int i = 0; i < edges; i++){
+        adj[graph[i][0]].push_back(graph[i][1]);
+    }
+
+    for(int i = 0; i < n; i++){
+        if(!vis[i])helper(adj, n, topo, vis, st, i);
+    }
+
+    while(!st.empty()){
+        topo.push_back(st.top());
+        st.pop();
+    }
+
+    return topo;
+
+}
+
