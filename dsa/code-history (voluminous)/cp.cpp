@@ -1,31 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-bool detectCycleDFShelper(vector<vector<int>> &adj, int n, vector<int>& vis, vector<int>& pathVis, int node){
-    vis[node] = 1;
-    pathVis[node] = 1;
 
-    for(auto it : adj[node]){
-        if(vis[it] && pathVis[it])return false;
-        if(!vis[it]){
-            if(!detectCycleDFShelper(adj, n, vis, pathVis, it))return false;
+class Solution {
+
+public:
+
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int ans = 0;
+        int n = grid.size(), m = grid[0].size();
+        vector<vector<int>> ansGrid(n, vector<int>(m, 0));
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                ansGrid[i][j] += grid[i][j];
+                if(i+1 < n)ansGrid[i+1][j] += grid[i][j];
+                if(j+1 < m)ansGrid[i][j+1] += grid[i][j];
+                if(i+1 < n && j+1 < m)ansGrid[i+1][j+1] += grid[i][j];
+            }
         }
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(ansGrid[i][j] < k)ans++;
+                else break;
+            }
+        }
+
+        return ans;
     }
-    pathVis[node] = 0;
-    return true;
-}
-
-bool detectCycleDFS(vector<vector<int>> &adj, int n){
-    
-}
-
-
-// false -> cycle detected
-// true -> no cycle
-
-int main(){
-    vector<vector<int>> adj1 = {{1},{2},{0}};
-    vector<vector<int>> adj2 = {{1,2},{2},{}};
-
-    cout << detectCycleDFS(adj1, 3, )
-}
+};

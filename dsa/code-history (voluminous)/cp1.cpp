@@ -1,69 +1,43 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-int countOddSetBits(int num) {
-    // int count = 0;
-    // int position = 0;
+void traverseSubmatrices(const vector<vector<int>>& grid) {
+    int n = grid.size();
+    int m = grid[0].size();
 
-    if(num < 3)return 1;
-    if((num & 0b11) == 0)return -1;
-    // if(num == 5)return 2;
-
-    // Iterate through binary digits
-    // while (num > 0) {
-    //     // Check if the corresponding position is odd
-    //     if ((position % 2 == 0) && (num & 1)) {
-    //         count++;
-    //     }
-
-    //     // Move to the next binary digit
-    //     num >>= 1;
-    //     position++;
-    // }
-        int ans = 0;
-        int position = 0;
-
-    while (num > 0) {
-        if (position >= 2) {
-            // Check if the corresponding position is odd or even
-            if ((position % 2 == 0) && (num & 1)) {
-                // Set bit at an odd position, add 1 to the ans
-                ans += 1;
-            } else if ((position % 2 != 0) && (num & 1)) {
-                // Set bit at an even position, add 2 to the ans
-                ans += 2;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            for (int k = i; k < n; ++k) {
+                for (int l = j; l < m; ++l) {
+                    // Check if the submatrix contains the element at i = 0, j = 0
+                    if (i == 0 && j == 0) {
+                        // Now, grid[i][j] is the top-left corner,
+                        // and grid[k][l] is the bottom-right corner of the submatrix
+                        for (int row = i; row <= k; ++row) {
+                            for (int col = j; col <= l; ++col) {
+                                // Access the elements of the submatrix: grid[row][col]
+                                cout << grid[row][col] << " ";
+                            }
+                            cout << endl;
+                        }
+                        cout << "----" << endl;
+                    }
+                }
             }
         }
-
-        // Move to the next binary digit
-        num >>= 1;
-        position++;
     }
-
-
-    return ans;
 }
 
+int main() {
+    vector<vector<int>> grid = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
 
-vector<int> getMinimumKValues(vector<int> arr){
-    int n = arr.size();
-    vector<int> ans(n);
-    
-    for(int i = 0; i < n; i++){
-        ans[i] = countOddSetBits(arr[i]);
-    }
+    traverseSubmatrices(grid);
 
-    return ans;
-    
-}
-
-    
-
-int main(){
-    vector<int> arr = {5,1,4,6,10};
-    vector<int> ans = getMinimumKValues(arr);
-
-    for(int i = 0; i < ans.size(); i++){
-        cout << ans[i] << " ";
-    }
+    return 0;
 }
