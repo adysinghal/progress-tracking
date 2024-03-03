@@ -3,51 +3,36 @@
 
 using namespace std;
 
-bool check(ll start, ll end, vector<ll> &arr){
-    unordered_map<ll,ll> freq;
-    
-    int threshold = (end-start+1)/2;
-    
-    for(ll i = start; i <= end; i++){
-        freq[arr[i]]++;
-        if(freq[arr[i]] > threshold)return false;
-    }
-    
-    return true;
-}
-
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
+    int t;
 
     cin >> t;
 
     while(t--){
-        
-        ll n, q;
-        cin >> n >> q;
-        vector<ll> arr(n);
+        int n;
+        cin >> n;
 
-        for(ll i = 0; i < n; i++){
-            cin >> arr[i];
+        priority_queue<int> pq;
+        for(int i = 0; i < 2*n ; i++){
+            int x;
+            cin >> x;
+            pq.push(x);
         }
 
-        vector<pair<ll,ll>> query(q);
-
-        for(ll i = 0; i < q; i++){
-            cin >> query[i].first;
-            cin >> query[i].second;
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            pq.pop();
+            ans += pq.top();
+            pq.pop();
         }
 
+        cout << ans << endl;
 
-        for(ll i = 0; i < q; i++){
-            bool ans = check((query[i].first) - 1, (query[i].second) - 1, arr);
-
-            cout << ((ans) ? "YES" : "NO") << endl;
-        }
 
     }
     return 0;
 }
+

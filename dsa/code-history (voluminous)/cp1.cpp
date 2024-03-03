@@ -1,76 +1,43 @@
 #include <iostream>
 #include <vector>
-#include <string>
-#include <unordered_map>
-#include <algorithm>
+
 using namespace std;
-#define ll long long 
 
+void traverseSubmatrices(const vector<vector<int>>& grid) {
+    int n = grid.size();
+    int m = grid[0].size();
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int t;
-
-    cin >> t;
-
-    while(t--){
-        int n, m, k;
-        cin >> n >> m >> k;
-        vector<int> a(n), b(m);
-
-        for(int i = 0; i < n; i++){
-            cin >> a[i];
-        }
-        for(int i = 0; i < m; i++){
-            cin >> b[i];
-        }
-
-        sort(a.begin(), a.end());
-        sort(b.begin(), b.end());
-
-        int numCheck = 1, countA = 0, countB = 0;
-        int i = 0, j = 0;
-        int common = 0;
-        
-        bool flag = true;
-        
-        while((i < n || j < m) && numCheck <= k){
-            if(i < n && j < m && a[i] == numCheck && b[j] == numCheck){
-                common++;
-                while(a[i] == numCheck)i++;
-                while(b[j] == numCheck)j++;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            for (int k = i; k < n; ++k) {
+                for (int l = j; l < m; ++l) {
+                    // Check if the submatrix contains the element at i = 0, j = 0
+                    if (i == 0 && j == 0) {
+                        // Now, grid[i][j] is the top-left corner,
+                        // and grid[k][l] is the bottom-right corner of the submatrix
+                        for (int row = i; row <= k; ++row) {
+                            for (int col = j; col <= l; ++col) {
+                                // Access the elements of the submatrix: grid[row][col]
+                                cout << grid[row][col] << " ";
+                            }
+                            cout << endl;
+                        }
+                        cout << "----" << endl;
+                    }
+                }
             }
-            else if(i < n && a[i] == numCheck){
-                countA++;
-                while(a[i] == numCheck)i++;
-            }
-            else if(j < m && b[j] == numCheck){
-                countB++;
-                while(b[j] == numCheck)j++;
-            }
-            else{
-                break;
-            }
-            numCheck++;
         }
-        
-        if(numCheck != k+1)flag = false;
-
-        if(countA > k/2 || countB > k/2)flag = false;
-
-        if(common > k - countA - countB)flag = false;
-        
-        if(flag){
-            cout << "YES" << endl;
-        }else{
-            cout << "NO" << endl;
-        }
-        
     }
+}
 
+int main() {
+    vector<vector<int>> grid = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
 
+    traverseSubmatrices(grid);
 
     return 0;
 }
-
