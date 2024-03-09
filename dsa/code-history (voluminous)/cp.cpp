@@ -3,22 +3,16 @@ using namespace std;
 
 class Solution {
 public:
-    int maxFrequencyElements(vector<int>& nums) {
-        unordered_map<int,int> mp;
-        for(auto i : nums){
-            mp[i]++;
-        }      
-        int ans = 0;
-        int maxFreq = 0;
-        for(auto it : mp){
-            if(it.second > maxFreq){
-                maxFreq = it.second;
-                ans = it.second;
-            }
-            else if(it.second == maxFreq){
-                ans += it.second;
-            }
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        int i1 = 0, i2 = 0;
+        while(i1 < nums1.size() && i2 < nums2.size()){
+            if(nums1[i1] == nums2[i2])
+                return nums1[i1];
+            else if(nums1[i1] < nums2[i2])
+                i1++;
+            else 
+                i2++;
         }
-        return ans;
+        return -1;
     }
 };
