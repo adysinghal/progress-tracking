@@ -3,16 +3,26 @@ using namespace std;
 
 class Solution {
 public:
-    int getCommon(vector<int>& nums1, vector<int>& nums2) {
-        int i1 = 0, i2 = 0;
-        while(i1 < nums1.size() && i2 < nums2.size()){
-            if(nums1[i1] == nums2[i2])
-                return nums1[i1];
-            else if(nums1[i1] < nums2[i2])
-                i1++;
-            else 
-                i2++;
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        
+        // keep smaller in nums1
+        if(nums1.size() > nums2.size()){
+            swap(nums1, nums2);
         }
-        return -1;
+
+        unordered_set<int> st;
+        for(int i = 0; i < nums1.size(); i++){
+            st.insert(nums1[i]);
+        }
+
+        vector<int> ans;
+        for(auto i : nums2){
+            if(st.find(i) != st.end()){
+                ans.push_back(i);
+                st.erase(i);
+            }
+        }
+
+        return ans;
     }
 };
