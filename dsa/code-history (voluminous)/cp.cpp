@@ -3,23 +3,26 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        
-        // keep smaller in nums1
-        if(nums1.size() > nums2.size()){
-            swap(nums1, nums2);
+    string customSortString(string order, string s) {
+        unordered_map<char,int> mp;
+        string ans;
+
+        for(int i = 0; i < s.size(); i++){
+            mp[s[i]]++;
         }
 
-        unordered_set<int> st;
-        for(int i = 0; i < nums1.size(); i++){
-            st.insert(nums1[i]);
+        for(int i = 0; i < order.size(); i++){
+            if(mp.find(order[i]) != mp.end()){
+                for(int j = 0; j < mp[order[i]]; j++){
+                    ans += order[i];
+                }
+            }
+            mp.erase(order[i]);
         }
 
-        vector<int> ans;
-        for(auto i : nums2){
-            if(st.find(i) != st.end()){
-                ans.push_back(i);
-                st.erase(i);
+        for(auto it : mp){
+            for(int i = 0; i < it.second; i++){
+                ans += it.first;
             }
         }
 
