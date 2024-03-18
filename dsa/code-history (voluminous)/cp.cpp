@@ -3,29 +3,22 @@ using namespace std;
 
 class Solution {
 public:
-    string customSortString(string order, string s) {
-        unordered_map<char,int> mp;
-        string ans;
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
 
-        for(int i = 0; i < s.size(); i++){
-            mp[s[i]]++;
+        int prefix = 1, postfix = 1;
+
+        vector<int> result(n, 1);
+        for(int i = 0; i < n; i++){
+            result[i] *= prefix;
+            prefix *= nums[i];
         }
 
-        for(int i = 0; i < order.size(); i++){
-            if(mp.find(order[i]) != mp.end()){
-                for(int j = 0; j < mp[order[i]]; j++){
-                    ans += order[i];
-                }
-            }
-            mp.erase(order[i]);
+        for(int i = n-1 ; i >= 0; i--){
+            result[i] *= postfix;
+            postfix *= nums[i];
         }
 
-        for(auto it : mp){
-            for(int i = 0; i < it.second; i++){
-                ans += it.first;
-            }
-        }
-
-        return ans;
+        return result;
     }
 };
