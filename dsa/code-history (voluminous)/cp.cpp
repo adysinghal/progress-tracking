@@ -3,22 +3,30 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n = nums.size();
+    int findMinArrowShots(vector<vector<int>>& points) {
+        int n = points.size(), ans = 0;
+        sort(points.begin(), points.end());
 
-        int prefix = 1, postfix = 1;
-
-        vector<int> result(n, 1);
-        for(int i = 0; i < n; i++){
-            result[i] *= prefix;
-            prefix *= nums[i];
+        int i = 0;
+        while(i < n){
+            int temp = i+1;
+            int end = points[i][1];
+            while(temp < n && end >= points[temp][0]){
+                end = min(end, points[temp][1]);
+                temp++;
+            }
+            
+            i = temp;
+            ans++;
         }
 
-        for(int i = n-1 ; i >= 0; i--){
-            result[i] *= postfix;
-            postfix *= nums[i];
-        }
-
-        return result;
+        return ans;
     }
 };
+
+int main(){
+    vector<vector<int>> v = {{9,12},{1,10},{4,11},{8,12},{3,9},{6,9},{6,7}};
+
+    Solution s;
+    // cout << s.findMinArrowShots(v);
+}
