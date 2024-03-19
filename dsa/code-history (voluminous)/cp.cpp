@@ -1,32 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
 class Solution {
-
 public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        int n = points.size(), ans = 0;
+        sort(points.begin(), points.end());
 
-    int countSubmatrices(vector<vector<int>>& grid, int k) {
-        int ans = 0;
-        int n = grid.size(), m = grid[0].size();
-        vector<vector<int>> ansGrid(n, vector<int>(m, 0));
-
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                ansGrid[i][j] += grid[i][j];
-                if(i+1 < n)ansGrid[i+1][j] += grid[i][j];
-                if(j+1 < m)ansGrid[i][j+1] += grid[i][j];
-                if(i+1 < n && j+1 < m)ansGrid[i+1][j+1] += grid[i][j];
+        int i = 0;
+        while(i < n){
+            int temp = i+1;
+            int end = points[i][1];
+            while(temp < n && end >= points[temp][0]){
+                end = min(end, points[temp][1]);
+                temp++;
             }
-        }
-
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(ansGrid[i][j] < k)ans++;
-                else break;
-            }
+            
+            i = temp;
+            ans++;
         }
 
         return ans;
     }
 };
+
+int main(){
+    vector<vector<int>> v = {{9,12},{1,10},{4,11},{8,12},{3,9},{6,9},{6,7}};
+
+    Solution s;
+    // cout << s.findMinArrowShots(v);
+}
