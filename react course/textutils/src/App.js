@@ -1,16 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import About from './components/About';
+import Navbar from './components/Navbar';
+import Textform from './components/Textform';
+import React, {useState} from 'react'
 
 function App() {
+  
+  const [mode, setMode] = useState('light');
+
+  const toggleMode = ()=>{
+    if(mode === 'light'){
+      setMode('dark');
+      document.body.style.backgroundColor = '#122e41e6';
+    }else{
+      setMode('light');
+      document.body.style.backgroundColor = 'white';
+    }
+  }
+  
   return (
     <>
-    <nav>
-      <li>Home</li>
-      <li>About</li>
-      <li>Contact</li>
-    </nav>
+    <Navbar title="TextUtils" button1="Home" button2="About" mode={mode} toggleMode={toggleMode}/>
+    <div className="container my-3">
+      <Textform heading="Enter the text to analyze." mode={mode} />
+      {/* <About className="my-3"/> */}
 
-    <div className="container">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit iusto adipisci perferendis odio cupiditate, mollitia quisquam quibusdam totam autem hic corporis, dolorum numquam voluptatibus similique molestias ex! Necessitatibus, veritatis tenetur!</div>
+
+    </div>
     </>
   );
 }
