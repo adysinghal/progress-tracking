@@ -1,16 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import Textform from './components/Textform';
 
 function App() {
   return (
     <>
-    <nav>
-      <li>Home</li>
-      <li>About</li>
-      <li>Contact</li>
-    </nav>
-
-    <div className="container">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit iusto adipisci perferendis odio cupiditate, mollitia quisquam quibusdam totam autem hic corporis, dolorum numquam voluptatibus similique molestias ex! Necessitatibus, veritatis tenetur!</div>
+    <Navbar title="TextUtils" button1="Home" button2="About" />
+    <div className="container my-3">
+      <Textform heading="Enter the text to analyze." />
+    </div>
     </>
   );
 }
