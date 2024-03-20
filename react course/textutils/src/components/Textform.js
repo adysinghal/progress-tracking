@@ -4,7 +4,7 @@ export default function Textform(props) {
     const[text, setText] = useState('Enter text here.');
     
     const handleUpClick = () =>{
-        // console.log("Uppercase button was clicked.");
+        // console.log("Uppercase button was clicked.");A
         let newText = text.toUpperCase();
         setText(newText);
     }
@@ -14,6 +14,10 @@ export default function Textform(props) {
         let newText = text.toLowerCase();
         setText(newText);
     }
+
+    const handleClearText = () =>{
+        setText('');
+    }
     
     const handleOnChange = (event) =>{
         // console.log("Text was changed.");
@@ -22,21 +26,27 @@ export default function Textform(props) {
 
   return (
     <>
-    <div className='container'>
+    <div className='container' style={{color: props.mode === 'light' ? '#122e41e6' : 'white'}}>
         <h1>{props.heading}</h1>
         <div className="mb-3">
-        <textarea className="form-control" value={text} onChange={handleOnChange} id="myBox" rows="8"></textarea>
+        <textarea className="form-control" value={text} style={{backgroundColor: props.mode === 'light' ? 'white' : '#ffffffc4'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
         </div>
         <button className="btn btn-primary mx-1" onClick={handleUpClick}>Convert to Uppercase</button>
         <button className="btn btn-primary mx-1" onClick={handleLoClick}>Convert to Lowercase</button>
+        <button className="btn btn-primary mx-1"onClick={handleClearText}>Clear Text</button>
     </div>
 
-    <div className="container my-3">
+    <div className='container my-3' style={{color: props.mode === 'light' ? '#122e41e6' : 'white'}}>
         <h1>Your Text Summary</h1>
-        <p>{text.split(" ").length} words & {text.length} character.</p>
+        <p>
+            {text.length === 0
+            ? 'No text.'
+            : `${text.split(" ").length} words & ${text.length} characters.`
+            }
+        </p>
 
         <h2>Preview</h2>
-        <p>{text}</p>
+        <p>{text.length>0 ? text : "Enter text."}</p>
     </div>
 
     </>
