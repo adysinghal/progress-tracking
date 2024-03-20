@@ -24,8 +24,10 @@ export default function Textform(props) {
         setText(event.target.value);
     }
 
+    
   return (
     <>
+    <div className="aditya"></div>
     <div className='container' style={{color: props.mode === 'light' ? '#122e41e6' : 'white'}}>
         <h1>{props.heading}</h1>
         <div className="mb-3">
