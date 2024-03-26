@@ -1,62 +1,41 @@
 #include<bits/stdc++.h>
-#define ll long long 
-
 using namespace std;
+#define pi pair<int,int>
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int source) {
+        
+        vector<vector<pi>> adj(n+1);
+        for(auto it : times){
+            adj[it[0]].push_back({it[2], it[1]});      // {dist, node}
+        }
 
+        priority_queue<pi, vector<pi>, greater<pi>> pq;     // {dist, node}
+        pq.push({0, source});
+        vector<int> distance(n+1, INT_MAX);
+        distance[source] = 0;
+
+        while(!pq.empty()){
+            int dist = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+
+            for(auto it : adj[node]){
+                if(dist + it.first < distance[it.second]){
+                    distance[it.second] = dist + it.first;
+                    pq.push({distance[it.second], it.second});
+                }
+            }
+        }
+        return *max_element(distance.begin()+1, distance.end());
+        
+    }
+};
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    ll t;
-
-    cin >> t;
-
-    while(t--){
-        ll n, k;
-        cin >> n >> k;
-        vector<ll> arr(n);
-        ll totalSum = 0;
-        for(ll i = 0; i < n; i++){
-            cin >> arr[i];
-            totalSum += arr[i];
-        }
-
-        ll startIndex = -1;
-        ll sum = 0;
-        bool positive = false;
-        ll maxSum = -1e9;
-        int MOD = 1000000007;
-
-        for(ll i = 0; i < n; i++){
-            sum += arr[i];
-            // sum %= MOD;
-            // sum %= (1000000007);
-            maxSum = max(maxSum, sum);
-            if(sum < 0)sum = 0;
-        }
-
-        // totalSum %= MOD;
-        // maxSum %= MOD;
-
-        if(maxSum < 0){
-            cout << MOD + (totalSum%MOD) << "\n";
-        }
-        else if (maxSum == 0){
-            cout << "0" << "\n";
-
-        }else if(maxSum > 0){
-            ll finalSum = 0;
-            for(int i = 1; i <= k; i++){
-                finalSum += (maxSum * pow(2,i));
-            }
-            finalSum += totalSum;
-            cout << finalSum << endl;
-            cout << maxSum << endl;
-            cout << totalSum << endl;
-
-            cout << finalSum%MOD << "\n";
-        }
-
-    }
+    vector<vector<int>> v = {{2,1,1},{2,3,1},{3,4,1}};
+    Solution s;
+    cout << s.networkDelayTime(v, 4, 2);
     return 0;
 }
+

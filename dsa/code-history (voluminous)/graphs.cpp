@@ -386,13 +386,13 @@ public:
 
 // https://www.codingninjas.com/studio/problems/topological-sorting_973003?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
 
-void helper(vector<vector<int>> &adj, int n, vector<int> &topo, vector<int>& vis ,stack<int> &s, int node){ 
+void helper(vector<vector<int>> &adj, int n, vector<int> &topo, vector<int>& vis ,stack<int> &st, int node){ 
     vis[node] = 1;
     for(auto it : adj[node]){
-        if(!vis[it])helper(adj, n, topo, vis, s, it);
+        if(!vis[it])helper(adj, n, topo, vis, st, it);
     }
 
-    s.push(node);
+    st.push(node);
     return;
 }
 
@@ -419,3 +419,484 @@ vector<int> topologicalSort(vector<vector<int>> &graph, int edges, int n) {
 
 }
 
+
+// MARCH
+class ninjas{
+
+public:
+    void dfs(vector<int> &vis, vector<vector<int>> &adj , int node, int n, stack<int> &st){
+        vis[node] = true;
+        for(auto it : adj[node]){   
+            if(!vis[it]){
+                dfs(vis, adj, it, n, st);
+            }
+        }
+
+        st.push(node);
+    }
+
+
+    // dfs approach
+    vector<int> topologicalSort(vector<vector<int>> &graph, int e, int n) {
+        vector<int> vis(n, 0);
+        stack<int> st;
+        vector<vector<int>> adj(n);
+        for(auto it : graph){
+            adj[it[0]].push_back(it[1]);
+        }
+
+        for(int i = 0; i < n; i++){
+            if(!vis[i]){
+                dfs(vis, adj, i, n, st);
+            }
+        }
+
+        vector<int> ans;
+        int sz = st.size();
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
+        }
+
+        return ans;
+    }
+};
+
+class ninjas{
+
+public:
+    // BFS approach
+    vector<int> topologicalSort(vector<vector<int>> &edges, int e, int n) {
+        vector<int> in(n, 0);
+        vector<int> ans;
+        queue<int> q;
+        vector<vector<int>> adj(n);
+        for(auto it:edges){
+            adj[it[0]].push_back(it[1]);
+        }
+
+        for(auto it : edges){
+            in[it[1]]++;
+        }
+
+        for(auto it : in){
+            if(it == 0){
+                q.push(it);
+            }
+        }
+
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+
+            for(auto it : adj[node]){
+                in[it]--;
+                if(in[it] == 0)q.push(it);
+            }
+            
+            ans.push_back(node);
+        }
+
+        return ans;
+
+    }
+};
+
+
+// https://leetcode.com/problems/course-schedule/
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        
+    }
+};
+
+class Ninja{
+    // https://www.codingninjas.com/codestudio/problems/single-source-shortest-path_8416371?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+    vector<int> shortestPath(int n, vector<vector<int>>&edges, int src) {
+        vector<vector<int>> adj(n);
+        vector<int> dist(n, INT_MAX);
+
+        for(auto i:edges){
+            adj[i[0]].push_back(i[1]);
+            adj[i[1]].push_back(i[0]);
+        }
+
+        queue<pair<int,int>> q;       // {node, dist}
+        q.push({src, 0});
+        dist[src] = 0;
+
+        while(!q.empty()){
+            int node = q.front().first;
+            int depth = q.front().second;
+            q.pop();
+
+            for(auto i : adj[node]){
+                if(depth + 1 < dist[i]){
+                    q.push({i,depth+1});
+                    dist[i] = depth + 1;
+                }
+            }
+        }
+
+        for(int i = 0; i < n; i++){
+            if(dist[i] == INT_MAX){
+                dist[i] = -1;
+            }
+        }
+
+        return dist;
+
+    }
+
+
+
+    // https://www.codingninjas.com/studio/problems/shortest-path-in-dag_8381897?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+    // advisable to use topo sort as it guarantees the presence of DAG
+    vector<int> shortestPathInDAG(int n, int m, vector<vector<int>> &edges){
+        vector<vector<pair<int,int>>> adj(n);
+
+        for(auto i : edges){
+            adj[i[0]].push_back({i[1], i[2]});
+        }
+
+        vector<int> dist(n, 1e9);
+
+        int src = 0;
+        queue<int> q;
+        q.push(src);
+        dist[src] = 0;
+
+        while(!q.empty()){
+            int node = q.front();
+            int depth = dist[node];
+            q.pop();
+
+            for(auto i : adj[node]){
+                if(depth + i.second < dist[i.first]){
+                    dist[i.first] = depth + i.second;
+                    q.push(i.first);
+                }
+            }
+        }
+
+        for(auto &i : dist){
+            if(i == 1e9)
+                i = -1;
+        }
+
+        return dist;
+    }
+
+    // vector<int> shortestPathInDAG(int n, int m, vector<vector<int>> &edges){
+    //     vector<vector<pair<int,int>>> adj(n);
+
+    //     for(auto i : edges){
+    //         adj[i[0]].push_back({i[1], i[2]});
+    //     }
+
+    //     vector<int> dist(n, 1e9);
+
+    //     int src = 0;
+    //     queue<pair<int,int>> q;
+    //     q.push({src,0});
+    //     dist[src] = 0;
+
+    //     while(!q.empty()){
+    //         int node = q.front().first;
+    //         int depth = q.front().second;
+    //         q.pop();
+
+    //         for(auto i : adj[node]){
+    //             if(depth + i.second < dist[i.first]){
+    //                 dist[i.first] = depth + i.second;
+    //                 q.push({i.first, dist[i.first]});
+    //             }
+    //         }
+    //     }
+
+    //     for(auto &i : dist){
+    //         if(i == 1e9)
+    //             i = -1;
+    //     }
+
+    //     return dist;
+    // }
+
+
+};
+
+// DIJKSTRA'S ALGORITHM
+// Why not use topo sort method? 
+// cannot handle cycles
+
+// https://www.codingninjas.com/studio/problems/dijkstra's-shortest-path_985358?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+class Dijkstra_ninjas{
+    // using pq
+    vector<int> dijkstra(vector<vector<int>> &edge, int n, int edges, int source){
+        vector<int> distance(n, INT_MAX);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        vector<vector<pair<int,int>>> adj(n);
+
+        distance[source] = 0;
+        pq.push({0, source});
+
+        for(auto it : edge) {
+            adj[it[0]].push_back({it[2], it[1]}); // {dist, node}
+        }
+
+        while(!pq.empty()) {
+            int dist = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+
+            for(auto it : adj[node]) {
+                if(dist + it.first < distance[it.second]) {
+                    distance[it.second] = dist + it.first;
+                    pq.push({distance[it.second], it.second});
+                }
+            }
+        }
+
+        return distance;
+    }
+
+    vector<int> dijkstra(vector<vector<int>> &edge, int n, int edges, int source){
+        set<pair<int,int>> st;
+        vector<int> distance(n, INT_MAX);
+        distance[source] = 0;
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto it : edge){
+            adj[it[0]].push_back({it[2], it[1]});
+            adj[it[1]].push_back({it[2], it[0]});
+        }
+
+        st.insert({0, source});
+
+        while(!st.empty()){
+            auto i = *(st.begin());
+            int node = i.second;
+            int dist = i.first;
+            st.erase(i);
+
+            for(auto it : adj[node]){
+                if(dist + it.first < distance[it.second]){
+                    distance[it.second] = dist + it.first;
+                    st.insert({distance[it.second], it.second});
+                }
+            }
+        }
+
+        return distance;
+    }
+};
+
+
+
+
+// https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/
+class Solution {
+public:
+
+
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> adj(n); // outgoing edges
+        vector<vector<int>> in(n);  // incoming edges
+        vector<int> vis(n, 0);
+        int ans = 0;
+        queue<int> q;
+        q.push(0);
+        for(auto it : connections){
+            adj[it[0]].push_back(it[1]);
+            in[it[1]].push_back(it[0]);
+        }
+
+
+        while(!q.empty()){
+            int node = q.front();
+            vis[node] = 1;
+            q.pop();
+
+            for(auto it:adj[node]){
+                if(!vis[it]){
+                    q.push(it);
+                    ans++;
+                }
+            }
+            for(auto it : in[node]){
+                if(!vis[it]){
+                    q.push(it);
+                }
+            }
+        }
+        return ans;
+    }
+
+
+};
+
+
+
+// https://leetcode.com/problems/shortest-path-in-binary-matrix/
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int n = grid.size();
+        if(grid[0][0] == 1 || grid[n-1][n-1] == 1)return -1;
+        if(n == 1)return 1;
+        // vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
+        queue<pair<int,pair<int,int>>> q;   // {dist,{row,col}}
+        q.push({1,{0,0}});
+        
+
+        while(!q.empty()){
+            int dist = q.front().first;
+            int row = q.front().second.first;
+            int col = q.front().second.second;
+            q.pop();
+
+            for(int i = -1; i <= 1; i++){
+                for(int j = -1; j <= 1; j++){
+                    if(i == 0 && j == 0)continue;
+                    int nrow = row + i, ncol = col + j;
+                    if(nrow>=0 && ncol>=0 && nrow<n && ncol<n && grid[nrow][ncol] == 0){
+                        if(nrow == n-1 && ncol == n-1)return dist+1;
+                        grid[nrow][ncol] = -1;
+                        q.push({dist+1, {nrow,ncol}});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+
+
+
+
+// https://leetcode.com/problems/path-with-minimum-effort/
+class Solution {
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int n = heights.size(), m = heights[0].size();
+        
+        priority_queue<pair<int, pair<int, int>>,vector<pair<int, pair<int, int>>>,greater<pair<int, pair<int, int>>>> q;
+        q.push({0, {0,0}});
+        
+        vector<vector<bool>> vis(n, vector<bool>(m, false));
+        
+        vector<int> delrow = {0,-1,0,1};
+        vector<int> delcol = {1,0,-1,0};
+
+        int ans = INT_MAX;
+
+        while(!q.empty()){
+            int dist = q.top().first;
+            int row = q.top().second.first;
+            int col = q.top().second.second;
+            q.pop();
+
+            if(vis[row][col])continue;
+
+            if(row == n-1 && col == m-1){
+                ans = min(ans, dist);
+                break;
+            }
+
+            vis[row][col] = 1;
+
+            for(int i = 0; i < 4; i++){
+                int nrow = row + delrow[i];
+                int ncol = col + delcol[i];
+
+                if (nrow >= 0 && ncol >= 0 && nrow < n && ncol < m) {
+                    int new_dist = max(dist, abs(heights[row][col] - heights[nrow][ncol]));
+                    q.push({new_dist, {nrow, ncol}});
+                }
+
+            }
+        }
+        return (ans == INT_MAX) ? -1 : ans;
+    }
+};
+
+
+
+// https://leetcode.com/problems/cheapest-flights-within-k-stops/
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        queue<vector<int>> pq;     // vector = {cost, city, no. of stops}
+        pq.push({0, src, 0});
+        vector<int> dist(n, INT_MAX);
+        dist[src] = 0;
+
+        // int ans = INT_MAX;
+        vector<vector<pair<int, int>>> adj(n);
+
+        for(auto it : flights){
+            adj[it[0]].push_back({it[1], it[2]});   // {destination city, price}
+        }
+
+        while(!pq.empty()){
+            vector<int> temp = pq.front();
+            pq.pop();
+
+            int cost = temp[0];
+            int city = temp[1];
+            int stops = temp[2];
+            if(stops > k)continue;
+            // cout << "cost: " << cost << "city: " << city << "stops: " << stops << "\n";
+
+
+            for(auto it : adj[city]){
+                // if(it.first == dst)ans = min(ans, cost + it.second);
+
+                if(cost + it.second < dist[it.first]){
+                    dist[it.first] = cost + it.second;
+                    pq.push({dist[it.first], it.first, stops+1});
+                }
+            }
+        }
+
+        return dist[dst]==INT_MAX ? -1 : dist[dst];
+    }
+};
+
+
+#define pi pair<int,int>
+
+// https://leetcode.com/problems/network-delay-time/
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int source) {
+        
+        vector<vector<pi>> adj(n);
+        for(auto it : times){
+            adj[it[0]].push_back({it[2], it[1]});      // {dist, node}
+        }
+
+        priority_queue<pi, vector<pi>, greater<pi>> pq;     // {dist, node}
+        vector<int> distance(n, INT_MAX);
+        pq.push({0, source});
+        distance[source] = 0;
+
+        while(!pq.empty()){
+            int dist = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+
+            for(auto it : adj[node]){
+                if(dist + it.first < distance[it.second]){
+                    distance[it.second] = dist + it.first;
+                    pq.push({distance[it.second], it.second});
+                }
+            }
+        }
+
+        return *max(distance.begin(), distance.end());
+        
+    }
+};

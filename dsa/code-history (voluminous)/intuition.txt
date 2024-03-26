@@ -1,0 +1,3 @@
+Topo sort -> whenever something has to come before something (course schedule)
+use TOPO SORT
+
