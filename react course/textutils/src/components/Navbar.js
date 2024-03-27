@@ -20,16 +20,11 @@ export default function Navbar(props) {
                             <a className="nav-link" href="/">{props.button2}</a>
                         </li>
                     </ul>
-                    {/* <div className={`form-check form-switch mx-3 text-${props.mode==='light'?'dark':'light'}`}>
+                    <div className={`form-check form-switch mx-3 text-${props.mode==='light'?'dark':'light'}`}>
                         <input className="form-check-input" type="checkbox" role="switch" onClick={props.toggleMode} id="flexSwitchCheckDefault"/>
                             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable Dark Mode</label>
-                    </div> */}
-                    <button type="button" className="btn btn-primary mx-1" onClick={props.colorMode('blue')}>Blue</button>
-                    <button type="button" className="btn btn-secondary mx-1" onClick={props.colorMode('grey')}>Grey</button>
-                    <button type="button" className="btn btn-success mx-1" onClick={props.colorMode('green')}>Green</button>
-                    <button type="button" className="btn btn-danger mx-1" onClick={props.colorMode('red')}>Red</button>
-                    <button type="button" className="btn btn-light mx-1" onClick={props.colorMode('light')}>Light</button>
-                    <button type="button" className="btn btn-dark mx-1" onClick={props.colorMode('dark')}>Dark</button>
+                    </div>
+
                 </div>
             </div>
         </nav>
