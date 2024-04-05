@@ -1,0 +1,4 @@
+DIJKSTRA's algorithm (not applicable to graphs with negative edge weight)
+3 methods to implement (fastest to slowest) - set, PQ, Q
+
+
