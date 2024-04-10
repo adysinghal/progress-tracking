@@ -22,4 +22,11 @@ used bcrypt.compare to validate password
 
 Creating middleware to authenticate user across website
 
-Store notes using 
+Store notes using .save()
+
+Updated note using findByIDandUpdate()
+Deleted note using findByIDandDelete()
+
+used react-router-dom for navigation between pages
+Context API: prevents drilling of props and redundant use of states
+
