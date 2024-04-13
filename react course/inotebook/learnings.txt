@@ -1,0 +1,32 @@
+MongoDB
+Schema created using mongoose
+Connected using connectToMongo function
+created mongoose.model and created createIndexes
+
+
+Running app through express 
+Express -> connect to web app (app.use, app.listen)
+Used express router to expose endpoints in API
+
+Authentication
+Name, email, password validation using Express-validator , caught errors using validationResult
+Email already exists using findOne function
+
+bcryptjs
+used salt and hash to generate Secretpassword
+
+jsonwebtoken
+created jwt to authenticate user using secret word (id)
+
+used bcrypt.compare to validate password
+
+Creating middleware to authenticate user across website
+
+Store notes using .save()
+
+Updated note using findByIDandUpdate()
+Deleted note using findByIDandDelete()
+
+used react-router-dom for navigation between pages
+Context API: prevents drilling of props and redundant use of states
+
