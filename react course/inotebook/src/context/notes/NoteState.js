@@ -17,7 +17,6 @@ const NoteState = (props) => {
             }
         });
         const json = await response.json();
-        console.log(json);
         setNotes(json);
     }
 
@@ -33,26 +32,25 @@ const NoteState = (props) => {
             },
             body: JSON.stringify({title, description, tag})
         });
-        const json = response.json();
-
-
-
-        let note = {
-            "_id": "6612711b46cc70129710fb4e12",
-            "user": "66112eaad7e580c0ac4fb88f1",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2024-04-07T10:10:35.571Z",
-            "__v": 0
-        };
+        const note = await response.json();
         setNotes(notes.concat(note));
     }
 
     // Delete a note
-    const deleteNote = (id) => {
+    const deleteNote = async (id) => {
         // TODO: Api call
-        console.log("Deleting note with id " + id);
+        const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQwMjEzOH0.P7sdJ4v9NWPXpWuKGEvYTg1PBPUezc9M1S63kmYIyhY",
+                "Content-Type": "application/json"
+
+            },
+            
+        });
+        const json = await response.json();
+
+
         const newNotes = notes.filter((note) => { return note._id != id })
         setNotes(newNotes);
     }
@@ -61,7 +59,7 @@ const NoteState = (props) => {
     const editNote = async (id, title, description, tag) => {
         // Api call
         const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQwMjEzOH0.P7sdJ4v9NWPXpWuKGEvYTg1PBPUezc9M1S63kmYIyhY",
                 "Content-Type": "application/json"
@@ -71,15 +69,19 @@ const NoteState = (props) => {
         });
         const json = response.json();
 
+
+        let newNotes = JSON.parse(JSON.stringify(notes));
         // logic to edit in client
-        for (let index = 0; index < notes.length; index++) {
-            const element = notes[index];
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
             if (element._id == id) {
-                element.title = title;
-                element.description = description;
-                element.tag = tag;
+                newNotes[index].title = title;
+                newNotes[index].description = description;
+                newNotes[index].tag = tag;
+                break;
             }
         }
+        setNotes(newNotes);
     }
 
 
