@@ -24,8 +24,8 @@ const Login = (props) => {
             // redirect
             // save Auth token and redirect
             localStorage.setItem('token', json.authToken);
-            navigate("/");
             props.showAlert("Logged in successfully", "success")
+            navigate("/");
         }else{
             alert("Invalid credentials.")
             props.showAlert("Invalid details", "danger")
@@ -38,7 +38,8 @@ const Login = (props) => {
 
 
     return (
-        <div>
+        <div className='mt-3'>
+            <h2>Login to access iNotebook</h2>
             <form onSubmit={handleSubmit}>
                 <div className="my-1 form-group">
                     <label htmlFor="email">Email address</label>

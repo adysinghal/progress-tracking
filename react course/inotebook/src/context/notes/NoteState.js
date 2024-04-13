@@ -12,8 +12,8 @@ const NoteState = (props) => {
         const response = await fetch(`${host}/api/notes/fetchallnotes`, {
             method: 'GET',
             headers: {
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQ4NDYwNH0.eHywLOz58wKIhrf9dL5l04-nCDTonUA2a8pVXbDTpoE',
-                'Content-Type': 'application/json'
+                "auth-token": localStorage.getItem('token'),
+                "Content-Type": 'application/json'
             }
         });
         const json = await response.json();
@@ -27,8 +27,8 @@ const NoteState = (props) => {
         const response = await fetch(`${host}/api/notes/addnote`, {
             method: 'POST',
             headers: {
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQ4NDYwNH0.eHywLOz58wKIhrf9dL5l04-nCDTonUA2a8pVXbDTpoE',
-                'Content-Type': 'application/json'
+                "auth-token": localStorage.getItem('token'),
+                "Content-Type": 'application/json'
             },
             body: JSON.stringify({title, description, tag})
         });
@@ -42,7 +42,7 @@ const NoteState = (props) => {
         const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
             method: 'DELETE',
             headers: {
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQwMjEzOH0.P7sdJ4v9NWPXpWuKGEvYTg1PBPUezc9M1S63kmYIyhY",
+                "auth-token": localStorage.getItem('token'),
                 "Content-Type": "application/json"
 
             },
@@ -61,7 +61,7 @@ const NoteState = (props) => {
         const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
             method: 'PUT',
             headers: {
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYxMTJlYWFkN2U1ODBjMGFjNGZiODhmIn0sImlhdCI6MTcxMjQwMjEzOH0.P7sdJ4v9NWPXpWuKGEvYTg1PBPUezc9M1S63kmYIyhY",
+                "auth-token": localStorage.getItem('token'),
                 "Content-Type": "application/json"
 
             },
